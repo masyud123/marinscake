@@ -25,7 +25,7 @@ class Modal extends CI_Controller
         $this->load->view('admin/template/header'); 
         $this->load->view('admin/template/sidebar');
         $this->load->view('admin/modal_pengeluaran/keluar_modal', $data);
-        $this->load->view('admin/template/footer');
+        $this->load->view('admin/template/footer'); 
     }
 
     // tambah data pengeluaran modal
@@ -36,6 +36,7 @@ class Modal extends CI_Controller
             $totalHargaSemua += $val;
 
             $data = array(
+                'jenis_pengeluaran' => $this->input->post('jenis_pengeluaran'),
                 'total_modal'    => $totalHargaSemua,
                 'tanggal'       => date('Y-m-d'),
             );
@@ -61,7 +62,8 @@ class Modal extends CI_Controller
                             swal("Berhasil","Data modal berhasil ditambahkan","success")  
                         </script>'
         );
-        redirect('admin/modal/pengeluaran_modal/' . date('Y-m'));
+        // redirect('admin/modal/pengeluaran_modal/' . date('Y-m'));
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
     }
 
     // hapus data pengeluaran modal
@@ -81,14 +83,16 @@ class Modal extends CI_Controller
                         swal("Berhasil","Data modal berhasil dihapus","success")  
                         </script>'
         );
-        redirect('admin/modal/pengeluaran_modal/' . $tanggal);
+        // redirect('admin/modal/pengeluaran_modal/' . $tanggal);
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
     }
 
     // tampilan edit data pengeluaran modal
-    public function edit_modal($idModal, $tanggal)
+    public function edit_modal($idModal, $tanggal, $jenis)
     {
         $data['detail_modal'] = $this->Model_laporan->get_detail_modal_where($idModal)->result_array();
         $data['bulan'] = $tanggal;
+        $data['jenis'] = $jenis;
 
         $this->load->view('admin/template/header');
         $this->load->view('admin/template/sidebar');
@@ -137,5 +141,41 @@ class Modal extends CI_Controller
                         </script>'
         );
         header("Location: " . $_SERVER['HTTP_REFERER']);
+    }
+
+    public function bahan_baku($bulan)
+    {
+        $data['data_modal']     = $this->Model_laporan->get_data_modal_bahan_baku($bulan)->result_array();
+        $data['detail_modal']   = $this->Model_laporan->get_detail_modal()->result_array();
+        $data['tanggal']        = $bulan;
+        // echo "<pre>"; print_r($data); exit;
+        $this->load->view('admin/template/header'); 
+        $this->load->view('admin/template/sidebar');
+        $this->load->view('admin/modal_pengeluaran/bahan_baku', $data);
+        $this->load->view('admin/template/footer'); 
+    }
+
+    public function akomodasi($bulan)
+    {
+        $data['data_modal']     = $this->Model_laporan->get_data_modal_akomodasi($bulan)->result_array();
+        $data['detail_modal']   = $this->Model_laporan->get_detail_modal()->result_array();
+        $data['tanggal']        = $bulan;
+        // echo "<pre>"; print_r($data); exit;
+        $this->load->view('admin/template/header'); 
+        $this->load->view('admin/template/sidebar');
+        $this->load->view('admin/modal_pengeluaran/akomodasi', $data);
+        $this->load->view('admin/template/footer'); 
+    }
+
+    public function lain_lain($bulan)
+    {
+        $data['data_modal']     = $this->Model_laporan->get_data_modal_lain_lain($bulan)->result_array();
+        $data['detail_modal']   = $this->Model_laporan->get_detail_modal()->result_array();
+        $data['tanggal']        = $bulan;
+        // echo "<pre>"; print_r($data); exit;
+        $this->load->view('admin/template/header'); 
+        $this->load->view('admin/template/sidebar');
+        $this->load->view('admin/modal_pengeluaran/lain_lain', $data);
+        $this->load->view('admin/template/footer'); 
     }
 }

@@ -5,10 +5,8 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header d-flex justify-content-start">
-                        <h4>Laporan Semua Pengeluaran</h4>
-                        <a href="<?=base_url('admin/Modal/bahan_baku/'.date('Y-m'))?>" class="btn btn-sm btn-danger ml-2 mr-2">Bahan Baku</a>
-                        <a href="<?=base_url('admin/Modal/akomodasi/'.date('Y-m'))?>" class="btn btn-sm btn-primary ml-2 mr-2">Akomodasi</a>
-                        <a href="<?=base_url('admin/Modal/lain_lain/'.date('Y-m'))?>" class="btn btn-sm btn-success ml-2 mr-2">Lain-Lain</a>
+                        <h4>Laporan Pengeluaran Bahan Baku</h4>
+                        <a href="<?=base_url('admin/Modal/pengeluaran_modal/'.date('Y-m'))?>" class="btn btn-sm btn-info ml-2 mr-2"><b>Kembali</b></a>
                     </div>
                     <div class="card-body">
                         <div class="form-group d-flex align-items-center">
@@ -16,9 +14,9 @@
                             <input id="tanggal_filter" type="month" name="tanggal" class="form-control mr-3" style="width:max-content" oninvalid="this.setCustomValidity('Form input tidak boleh kosong!')" oninput="setCustomValidity('')" required value="<?= $tanggal ?>">
                             <button type="button" onclick="filter()" class="btn btn-primary"><i class="fas fa-align-center mr-2"></i>Filter</button>
                             <!-- ekspor pdf -->
-                            <a href="<?php echo base_url('admin/cetak_pdf/cetak_modal_pdf/' . $tanggal) ?>" target="_blank" class="btn btn-warning ml-3"><i class="fas fa-file mr-2"></i>Export pdf</a>
+                            <!-- <a href="<?php echo base_url('admin/cetak_pdf/cetak_modal_pdf/' . $tanggal) ?>" target="_blank" class="btn btn-warning ml-3"><i class="fas fa-file mr-2"></i>Export pdf</a> -->
                             <!-- tambah data -->
-                            <!-- <button class="btn btn-success ml-3" data-toggle="modal" data-target="#biaya_produksi"><i class="fas fa-plus mr-1"></i> Tambah Data Pengeluaran</button> -->
+                            <button class="btn btn-success ml-3" data-toggle="modal" data-target="#biaya_produksi"><i class="fas fa-plus mr-1"></i> Tambah Pengeluaran</button>
                         </div>
                         <div class="table-responsive">
                             <table class="table table-striped" id="table-1">
@@ -28,7 +26,6 @@
                                             No
                                         </th>
                                         <th>Tanggal</th>
-                                        <th>Jenis Pengeluaran</th>
                                         <th>Total Pengeluaran</th>
                                         <th class="text-center">Aksi</th>
                                     </tr>
@@ -45,24 +42,13 @@
                                                 <?= $dt_modal['tanggal'] ?>
                                             </td>
                                             <td>
-                                                <?php 
-                                                    if($dt_modal['jenis_pengeluaran'] == 1):
-                                                        echo "Bahan Baku";
-                                                    elseif($dt_modal['jenis_pengeluaran'] == 2):
-                                                        echo "Akomodasi";
-                                                    elseif($dt_modal['jenis_pengeluaran'] == 3):
-                                                        echo "Lain-Lain";
-                                                    endif;
-                                                ?>
-                                            </td>
-                                            <td>
                                                 Rp. <?php echo number_format($dt_modal['total_modal'], 0, '', '.') ?>
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-around">
                                                     <button class="btn btn-info" data-toggle="modal" data-target="#detail_modal<?= $dt_modal['id_modal'] ?>">
                                                         <i class="fas fa-search"></i> Detail</button>
-                                                    <button class="btn btn-warning" type="button" onclick="window.location.href='<?php echo base_url('admin/modal/edit_modal/' . $dt_modal['id_modal'] . '/' . $tanggal) . '/0' ?>'">
+                                                    <button class="btn btn-warning" type="button" onclick="window.location.href='<?php echo base_url('admin/modal/edit_modal/' . $dt_modal['id_modal'] . '/' . $tanggal) . '/1' ?>'">
                                                         <i class="fas fa-pen"></i> Edit</button>
                                                     <button class="btn btn-danger" onclick="hapus_modal(<?= $dt_modal['id_modal']; ?>)" type="button">
                                                         <i class="fas fa-trash"></i> Hapus</button>
@@ -90,11 +76,11 @@
     }
 </style>
 <!-- modal tambah biaya produksi-->
-<!-- <div class="modal fade bd-example-modal-xl" id="biaya_produksi" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal fade bd-example-modal-xl" id="biaya_produksi" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header ml-3">
-                <h5 class="modal-title" id="exampleModalCenterTitle">Tambah Data Pengeluaran</h5>
+                <h5 class="modal-title" id="exampleModalCenterTitle">Tambah Data Pengeluaran Bahan Baku</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -105,7 +91,7 @@
                         <div class="col-3 text-center">
                             <div class="form-group my-1">
                                 <label>
-                                    Nama Pengeluaran
+                                    Nama Bahan
                                 </label>
                             </div>
                         </div>
@@ -134,6 +120,7 @@
                         </div>
                     </div>
                     <div class="input_fields_wrap">
+                        <input type="hidden" name="jenis_pengeluaran" value="1">
                         <div class="row">
                             <div class="col-3">
                                 <input required class="form-control" type="text" name="namaBahan[0]">
@@ -186,7 +173,7 @@
             </div>
         </div>
     </div>
-</div> -->
+</div>
 <!-- modal detail biaya produksi-->
 <?php foreach ($data_modal as $dt_modal) : ?>
     <div class="modal fade bd-example-modal-lg" id="detail_modal<?= $dt_modal['id_modal'] ?>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -341,7 +328,7 @@
     function filter() {
         var tanggal = document.getElementById('tanggal_filter').value;
         if (tanggal != '') {
-            window.location = "<?php echo base_url('admin/modal/pengeluaran_modal/') ?>" + tanggal;
+            window.location = "<?php echo base_url('admin/Modal/bahan_baku/') ?>" + tanggal;
         } else {
             swal('Informasi', 'Bulan dan tahun tidak ditemukan', 'info');
         }

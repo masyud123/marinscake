@@ -43,6 +43,32 @@ class Model_laporan extends CI_Model {
         return $this->db->get_where('detail_modal', array('id_modal' => $idModal));
     } 
 
+    public function get_data_modal_bahan_baku($bulan)
+    {
+        $this->db->select('*');
+        $this->db->from('modal');
+        $this->db->where('jenis_pengeluaran', 1);
+        $this->db->like('tanggal', $bulan);
+        return $this->db->get();
+    }
+
+    public function get_data_modal_akomodasi($bulan)
+    {
+        $this->db->select('*');
+        $this->db->from('modal');
+        $this->db->where('jenis_pengeluaran', 2);
+        $this->db->like('tanggal', $bulan);
+        return $this->db->get();
+    }
+
+    public function get_data_modal_lain_lain($bulan)
+    {
+        $this->db->select('*');
+        $this->db->from('modal');
+        $this->db->where('jenis_pengeluaran', 3);
+        $this->db->like('tanggal', $bulan);
+        return $this->db->get();
+    }
 
     //              Transaksi Langsung
     // get data transaksi langsung 

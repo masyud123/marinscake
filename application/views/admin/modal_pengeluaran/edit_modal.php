@@ -19,6 +19,10 @@
                     <div class="card-header d-flex justify-content-between">
                         <h4>
                             Edit Pengeluaran
+                            <?php if($jenis == 1): ?>
+                            <?php elseif($jenis == 2): ?>
+                            <?php elseif($jenis == 3): ?>
+                            <?php endif; ?>
                         </h4>
                     </div>
                     <div class="card-body">
@@ -114,10 +118,27 @@
                                 <button class="btn btn-info add_field_button" type="button"><i class="fas fa-plus mr-2"></i>Tambah Form</button>
                             </div>
                             <div class="d-flex justify-content-around mt-3">
-                                <button type="button" class="btn btn-danger col-2" onclick="window.location.href='<?= base_url('admin/modal/pengeluaran_modal/' . $bulan) ?>'">
-                                    <i class="fas fa-arrow-left"></i>
-                                    Kembali
-                                </button>
+                                <?php if($jenis == 0): ?>
+                                    <button type="button" class="btn btn-danger col-2" onclick="window.location.href='<?= base_url('admin/modal/pengeluaran_modal/' . $bulan) ?>'">
+                                        <i class="fas fa-arrow-left"></i>
+                                        Kembali
+                                    </button>
+                                <?php elseif($jenis == 1): ?>
+                                    <button type="button" class="btn btn-danger col-2" onclick="window.location.href='<?= base_url('admin/modal/bahan_baku/' . $bulan) ?>'">
+                                        <i class="fas fa-arrow-left"></i>
+                                        Kembali
+                                    </button>
+                                <?php elseif($jenis == 2): ?>
+                                    <button type="button" class="btn btn-danger col-2" onclick="window.location.href='<?= base_url('admin/modal/akomodasi/' . $bulan) ?>'">
+                                        <i class="fas fa-arrow-left"></i>
+                                        Kembali
+                                    </button>
+                                <?php elseif($jenis == 3): ?>
+                                    <button type="button" class="btn btn-danger col-2" onclick="window.location.href='<?= base_url('admin/modal/lain_lain/' . $bulan) ?>'">
+                                        <i class="fas fa-arrow-left"></i>
+                                        Kembali
+                                    </button>
+                                <?php endif; ?>
                                 <button type="submit" class="btn btn-primary col-2">
                                     <i class="fas fa-save mr-1"></i>
                                     Simpan
