@@ -12,6 +12,7 @@ class Transaksi extends CI_Controller
             redirect('admin/auth/login');
         }
         date_default_timezone_set('Asia/Jakarta');
+        error_reporting(0);
     }
 
     // Tampil Data Transaksi Langsung

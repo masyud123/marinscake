@@ -10,6 +10,7 @@ class Akun extends CI_Controller
         if ($this->session->userdata('role') != 24) {
             redirect('admin/auth/Login');
         }
+        error_reporting(0);
     }
 
     // Tampilan akun

@@ -10,6 +10,7 @@ class Karyawan extends CI_Controller
         if ($this->session->userdata('role') != 77) {
             redirect('admin/auth/login');
         }
+        error_reporting(0);
     }
 
     // tampilan karyawan

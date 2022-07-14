@@ -12,16 +12,17 @@ class Modal extends CI_Controller
             redirect('admin/auth/login');
         }
         date_default_timezone_set('Asia/Jakarta');
+        error_reporting(0);
     }
 
     // Tampilan pengeluaran modal
     public function pengeluaran_modal($bulan)
     {
         $data['data_modal']     = $this->Model_laporan->get_data_modal($bulan)->result_array();
-        $data['detail_modal']     = $this->Model_laporan->get_detail_modal()->result_array();
+        $data['detail_modal']   = $this->Model_laporan->get_detail_modal()->result_array();
         $data['tanggal']        = $bulan;
 
-        $this->load->view('admin/template/header');
+        $this->load->view('admin/template/header'); 
         $this->load->view('admin/template/sidebar');
         $this->load->view('admin/modal_pengeluaran/keluar_modal', $data);
         $this->load->view('admin/template/footer');
