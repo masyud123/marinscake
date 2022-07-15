@@ -93,6 +93,8 @@ class Modal extends CI_Controller
         $data['detail_modal'] = $this->Model_laporan->get_detail_modal_where($idModal)->result_array();
         $data['bulan'] = $tanggal;
         $data['jenis'] = $jenis;
+        $jns_png = $this->db->get_where('modal', ['id_modal' => $idModal])->row();
+        $data['jns_png'] = $jns_png->jenis_pengeluaran; 
 
         $this->load->view('admin/template/header');
         $this->load->view('admin/template/sidebar');

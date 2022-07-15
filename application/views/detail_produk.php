@@ -58,9 +58,9 @@
                                     $i++;
                                 endforeach; ?>
                             </div>
-                            <div class="ps-product__sharing">
+                            <!-- <div class="ps-product__sharing">
                                 <p class="text-right">Bagikan<a href="#"><i class="fa fa-facebook"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-dribbble"></i></a></p>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 <?php endforeach ?>

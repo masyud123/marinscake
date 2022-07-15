@@ -4,11 +4,15 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header d-flex justify-content-start">
-                        <h4>Laporan Semua Pengeluaran</h4>
-                        <a href="<?=base_url('admin/Modal/bahan_baku/'.date('Y-m'))?>" class="btn btn-sm btn-danger ml-2 mr-2">Bahan Baku</a>
-                        <a href="<?=base_url('admin/Modal/akomodasi/'.date('Y-m'))?>" class="btn btn-sm btn-primary ml-2 mr-2">Akomodasi</a>
-                        <a href="<?=base_url('admin/Modal/lain_lain/'.date('Y-m'))?>" class="btn btn-sm btn-success ml-2 mr-2">Lain-Lain</a>
+                    <div class="card-header row">
+                        <div class="col-lg-6">
+                            <h4>Laporan Semua Pengeluaran</h4>
+                        </div>
+                        <div class="col-lg-6 d-lg-flex justify-content-lg-between">
+                            <a href="<?=base_url('admin/Modal/bahan_baku/'.date('Y-m'))?>" class="btn btn-sm btn-danger col-lg-3">Bahan Baku</a>
+                            <a href="<?=base_url('admin/Modal/akomodasi/'.date('Y-m'))?>" class="btn btn-sm btn-primary col-lg-3">Akomodasi</a>
+                            <a href="<?=base_url('admin/Modal/lain_lain/'.date('Y-m'))?>" class="btn btn-sm btn-success col-lg-3">Lain-Lain</a>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="form-group d-flex align-items-center">
@@ -16,7 +20,7 @@
                             <input id="tanggal_filter" type="month" name="tanggal" class="form-control mr-3" style="width:max-content" oninvalid="this.setCustomValidity('Form input tidak boleh kosong!')" oninput="setCustomValidity('')" required value="<?= $tanggal ?>">
                             <button type="button" onclick="filter()" class="btn btn-primary"><i class="fas fa-align-center mr-2"></i>Filter</button>
                             <!-- ekspor pdf -->
-                            <a href="<?php echo base_url('admin/cetak_pdf/cetak_modal_pdf/' . $tanggal) ?>" target="_blank" class="btn btn-warning ml-3"><i class="fas fa-file mr-2"></i>Export pdf</a>
+                            <a href="<?php echo base_url('admin/cetak_pdf/cetak_modal_pdf/' . $tanggal .'/0') ?>" target="_blank" class="btn btn-warning ml-3"><i class="fas fa-file mr-2"></i>Export pdf</a>
                             <!-- tambah data -->
                             <!-- <button class="btn btn-success ml-3" data-toggle="modal" data-target="#biaya_produksi"><i class="fas fa-plus mr-1"></i> Tambah Data Pengeluaran</button> -->
                         </div>

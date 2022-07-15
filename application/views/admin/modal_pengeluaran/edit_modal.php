@@ -19,9 +19,12 @@
                     <div class="card-header d-flex justify-content-between">
                         <h4>
                             Edit Pengeluaran
-                            <?php if($jenis == 1): ?>
-                            <?php elseif($jenis == 2): ?>
-                            <?php elseif($jenis == 3): ?>
+                            <?php if($jns_png == 1): ?>
+                                Bahan Baku
+                            <?php elseif($jns_png == 2): ?>
+                                Akomodasi
+                            <?php elseif($jns_png == 3): ?>
+                                Lain-Lain
                             <?php endif; ?>
                         </h4>
                     </div>

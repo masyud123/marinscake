@@ -14,7 +14,7 @@
                             <input id="tanggal_filter" type="month" name="tanggal" class="form-control mr-3" style="width:max-content" oninvalid="this.setCustomValidity('Form input tidak boleh kosong!')" oninput="setCustomValidity('')" required value="<?= $tanggal ?>">
                             <button type="button" onclick="filter()" class="btn btn-primary"><i class="fas fa-align-center mr-2"></i>Filter</button>
                             <!-- ekspor pdf -->
-                            <!-- <a href="<?php echo base_url('admin/cetak_pdf/cetak_modal_pdf/' . $tanggal) ?>" target="_blank" class="btn btn-warning ml-3"><i class="fas fa-file mr-2"></i>Export pdf</a> -->
+                            <a href="<?php echo base_url('admin/cetak_pdf/cetak_modal_pdf/' . $tanggal .'/1') ?>" target="_blank" class="btn btn-warning ml-3"><i class="fas fa-file mr-2"></i>Export pdf</a>
                             <!-- tambah data -->
                             <button class="btn btn-success ml-3" data-toggle="modal" data-target="#biaya_produksi"><i class="fas fa-plus mr-1"></i> Tambah Pengeluaran</button>
                         </div>
@@ -48,7 +48,7 @@
                                                 <div class="d-flex justify-content-around">
                                                     <button class="btn btn-info" data-toggle="modal" data-target="#detail_modal<?= $dt_modal['id_modal'] ?>">
                                                         <i class="fas fa-search"></i> Detail</button>
-                                                    <button class="btn btn-warning" type="button" onclick="window.location.href='<?php echo base_url('admin/modal/edit_modal/' . $dt_modal['id_modal'] . '/' . $tanggal) . '/1' ?>'">
+                                                    <button class="btn btn-warning" type="button" onclick="window.location.href='<?php echo base_url('admin/Modal/edit_modal/' . $dt_modal['id_modal'] . '/' . $tanggal) . '/1' ?>'">
                                                         <i class="fas fa-pen"></i> Edit</button>
                                                     <button class="btn btn-danger" onclick="hapus_modal(<?= $dt_modal['id_modal']; ?>)" type="button">
                                                         <i class="fas fa-trash"></i> Hapus</button>
@@ -319,7 +319,7 @@
             dangerMode: true,
         }).then((willDelete) => {
             if (willDelete) {
-                window.location = "<?php echo base_url('admin/modal/hapus_modal/') ?>" + $id_modal + '_' + tanggal;
+                window.location = "<?php echo base_url('admin/Modal/hapus_modal/') ?>" + $id_modal + '_' + tanggal;
             } else {
                 swal("Data modal batal dihapus");
             }
