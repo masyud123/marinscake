@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="<?= base_url() ?>assets/client/plugins/slick/slick/slick.css" />
     <link rel="stylesheet" href="<?= base_url() ?>assets/client/plugins/lightGallery-master/dist/css/lightgallery.min.css" />
     <link rel="stylesheet" href="<?= base_url() ?>assets/client/css/style.css" />
-    
+
     <link rel='shortcut icon' type='image/x-icon' href='<?= base_url() ?>assets/img/marinscake-logo.png' />
 
     <!-- swal -->
@@ -58,7 +58,7 @@
                         <a href="<?= base_url() ?>keranjang">Keranjang</a>
                     </li>
                     <li class="<?= ($this->uri->segment(1) == 'checkout') ? 'current-menu-item' : '' ?>">
-                        <a href="<?= base_url() ?>checkout">Checkout</a>
+                        <a href="<?= base_url() ?>keranjang">Checkout</a>
                     </li>
                     <li><a href="<?= base_url() ?>#company-info">About</a></li>
                 </ul>

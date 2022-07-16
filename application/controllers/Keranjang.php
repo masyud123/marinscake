@@ -42,6 +42,72 @@ class Keranjang extends CI_Controller
 		// echo json_encode($data); //tampilkan cart setelah added
 	}
 
+	function cek_stok_cart()
+	{
+		$return = true;
+		foreach ($this->cart->contents() as $items) {
+			$id_produk = $items['id'];
+			$produk = $this->db->get_where('produk', array('id_produk' => $id_produk))->row_array();
+			if ($items['qty'] > $produk['stok']) {
+				$return = false;
+				break;
+			}
+		}
+		echo json_encode($return);
+	}
+
+	function update_stok_cart()
+	{
+		foreach ($this->cart->contents() as $items) {
+			$id_produk = $items['id'];
+			$produk = $this->db->get_where('produk', array('id_produk' => $id_produk))->row_array();
+			if ($items['qty'] > $produk['stok']) {
+				$data = array(
+					'rowid' => $items['rowid'],
+					'qty' => $produk['stok'],
+				);
+				$this->cart->update($data);
+			}
+		}
+		$data['cart'] = $this->show_cart();
+		$data['cart2'] = $this->show_cart2();
+
+		echo json_encode($data);
+	}
+
+	function cek_min_cart()
+	{
+		$return = true;
+		foreach ($this->cart->contents() as $items) {
+			$id_produk = $items['id'];
+			$produk = $this->db->get_where('produk', array('id_produk' => $id_produk))->row_array();
+			if ($items['qty'] < $produk['min_order']) {
+				$return = false;
+				break;
+			}
+		}
+		echo json_encode($return);
+	}
+
+	function update_min_cart()
+	{
+		foreach ($this->cart->contents() as $items) {
+			$id_produk = $items['id'];
+			$produk = $this->db->get_where('produk', array('id_produk' => $id_produk))->row_array();
+			if ($items['qty'] < $produk['min_order']) {
+				$data = array(
+					'rowid' => $items['rowid'],
+					'qty' => $produk['min_order'],
+				);
+				$this->cart->update($data);
+			}
+		}
+		$data['cart'] = $this->show_cart();
+		$data['cart2'] = $this->show_cart2();
+
+		echo json_encode($data);
+	}
+
 	function show_cart1()
 	{
 		$output 	= '';
@@ -181,12 +247,13 @@ class Keranjang extends CI_Controller
 					</div>
 					<div class="ps-cart__total">
 						<h3>
-							Total Price: <span>
-							Rp ' . number_format($this->cart->total(), '0', ',', '.') . '
-							</span>
+							Total Price:  <span> Rp ' . number_format($this->cart->total(), '0', ',', '.') . '</span>
 						</h3>
-						<a class="ps-btn" href="' . base_url() . 'checkout">Process to checkout</a>
 					</div>
+				</div>
+				<div class="text-right">
+					<button class="checkout-booking ps-btn" id="checkout-booking">Checkout for Now</button>
+					<button class="checkout-preorder ps-btn" id="checkout-preorder">Checkout for Preorder</button>
 				</div>
 			';
 		} else {

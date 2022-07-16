@@ -9,9 +9,9 @@
                             <h4>Laporan Semua Pengeluaran</h4>
                         </div>
                         <div class="col-lg-6 d-lg-flex justify-content-lg-between">
-                            <a href="<?=base_url('admin/Modal/bahan_baku/'.date('Y-m'))?>" class="btn btn-sm btn-danger col-lg-3">Bahan Baku</a>
-                            <a href="<?=base_url('admin/Modal/akomodasi/'.date('Y-m'))?>" class="btn btn-sm btn-primary col-lg-3">Akomodasi</a>
-                            <a href="<?=base_url('admin/Modal/lain_lain/'.date('Y-m'))?>" class="btn btn-sm btn-success col-lg-3">Lain-Lain</a>
+                            <a href="<?= base_url('admin/Modal/bahan_baku/' . date('Y-m')) ?>" class="btn btn-sm btn-danger col-lg-3">Bahan Baku</a>
+                            <a href="<?= base_url('admin/Modal/akomodasi/' . date('Y-m')) ?>" class="btn btn-sm btn-primary col-lg-3">Akomodasi</a>
+                            <a href="<?= base_url('admin/Modal/lain_lain/' . date('Y-m')) ?>" class="btn btn-sm btn-success col-lg-3">Lain-Lain</a>
                         </div>
                     </div>
                     <div class="card-body">
@@ -20,7 +20,7 @@
                             <input id="tanggal_filter" type="month" name="tanggal" class="form-control mr-3" style="width:max-content" oninvalid="this.setCustomValidity('Form input tidak boleh kosong!')" oninput="setCustomValidity('')" required value="<?= $tanggal ?>">
                             <button type="button" onclick="filter()" class="btn btn-primary"><i class="fas fa-align-center mr-2"></i>Filter</button>
                             <!-- ekspor pdf -->
-                            <a href="<?php echo base_url('admin/cetak_pdf/cetak_modal_pdf/' . $tanggal .'/0') ?>" target="_blank" class="btn btn-warning ml-3"><i class="fas fa-file mr-2"></i>Export pdf</a>
+                            <a href="<?php echo base_url('admin/Cetak_pdf/cetak_modal_pdf/' . $tanggal . '/0') ?>" target="_blank" class="btn btn-warning ml-3"><i class="fas fa-file mr-2"></i>Export pdf</a>
                             <!-- tambah data -->
                             <!-- <button class="btn btn-success ml-3" data-toggle="modal" data-target="#biaya_produksi"><i class="fas fa-plus mr-1"></i> Tambah Data Pengeluaran</button> -->
                         </div>
@@ -49,14 +49,14 @@
                                                 <?= $dt_modal['tanggal'] ?>
                                             </td>
                                             <td>
-                                                <?php 
-                                                    if($dt_modal['jenis_pengeluaran'] == 1):
-                                                        echo "Bahan Baku";
-                                                    elseif($dt_modal['jenis_pengeluaran'] == 2):
-                                                        echo "Akomodasi";
-                                                    elseif($dt_modal['jenis_pengeluaran'] == 3):
-                                                        echo "Lain-Lain";
-                                                    endif;
+                                                <?php
+                                                if ($dt_modal['jenis_pengeluaran'] == 1) :
+                                                    echo "Bahan Baku";
+                                                elseif ($dt_modal['jenis_pengeluaran'] == 2) :
+                                                    echo "Akomodasi";
+                                                elseif ($dt_modal['jenis_pengeluaran'] == 3) :
+                                                    echo "Lain-Lain";
+                                                endif;
                                                 ?>
                                             </td>
                                             <td>
@@ -89,6 +89,7 @@
         -webkit-appearance: none;
         margin: 0;
     }
+
     input[type=number] {
         -moz-appearance: textfield;
     }
@@ -258,10 +259,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
-        var max_fields = 20; 
-        var wrapper = $(".input_fields_wrap"); 
-        var add_button = $(".add_field_button"); 
-        var x = 1; 
+        var max_fields = 20;
+        var wrapper = $(".input_fields_wrap");
+        var add_button = $(".add_field_button");
+        var x = 1;
         a = 1;
         b = 1;
         c = 1;
@@ -271,9 +272,9 @@
         g = 1;
         h = 1;
         i = 1;
-        $(add_button).click(function(e) { 
+        $(add_button).click(function(e) {
             e.preventDefault();
-            x++; 
+            x++;
             $(wrapper).append('' +
                 '<div class="row">' +
                 '<div class="col-3">' +
@@ -308,24 +309,28 @@
                 '</div>'
             );
         });
-        $(wrapper).on("click", ".remove_field", function(e) { 
+        $(wrapper).on("click", ".remove_field", function(e) {
             e.preventDefault();
             $(this).parent('div').parent('div').remove();
             x--;
         })
     });
+
     function jumlah($a) {
         return hitung($a);
     }
+
     function hargaSatuan($b) {
         return hitung($b);
     }
+
     function hitung($c) {
         var jumlah = document.getElementById("jumlah" + $c).value;
         var hargaSatuan = document.getElementById('hargaSatuan' + $c).value;
         total = jumlah * hargaSatuan;
         document.getElementById("totalHarga" + $c).value = total;
     }
+
     function hapus_modal($id_modal) {
         var tanggal = document.getElementById('tanggal_filter').value;
         swal({
@@ -342,6 +347,7 @@
             }
         });
     }
+
     function filter() {
         var tanggal = document.getElementById('tanggal_filter').value;
         if (tanggal != '') {

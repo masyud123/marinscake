@@ -53,11 +53,11 @@
                                             </li> <?php endif ?>
                                     <?php endif; ?>
                                 <?php if ($hitung == 1) {
-                                    $count .= $ktg['id_jenis'];
-                                } elseif ($hitung > 1) {
-                                    $count .= ",".$ktg['id_jenis'];
-                                }
-                                $hitung++;
+                                        $count .= $ktg['id_jenis'];
+                                    } elseif ($hitung > 1) {
+                                        $count .= "," . $ktg['id_jenis'];
+                                    }
+                                    $hitung++;
                                 endforeach; ?>
                                 <?php if ($where == null) : ?>
                                     <input id="kategori" type="hidden" name="kategori" value="<?= $count ?>">
@@ -165,6 +165,7 @@
                 var stok = result[index].stok;
                 var min = result[index].min_order;
                 var gambar = result[index].gambar;
+                var deskripsi = result[index].deskripsi;
                 sno += 1;
 
                 var x = '<div class="col-lg-4">';
@@ -178,7 +179,7 @@
                 x += '</ul>';
                 x += '</div>';
                 x += '<div class="ps-product__content"><a class="ps-product__title" href="<?= base_url() ?>produk/detail/' + id + '">' + nama + '</a>'
-                x += '<p>Min Order : ' + min + ' pcs</p>';
+                x += '<p>' + deskripsi.substr(0, 20) + '...</p>';
                 x += '<p class="ps-product__price">' + harga + '</p>';
                 x += '</div>';
                 x += '</div>';

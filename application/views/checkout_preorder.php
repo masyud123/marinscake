@@ -1,6 +1,6 @@
 <div class="ps-hero bg--cover" data-background="<?= base_url() ?>assets/client/images/hero/about.jpg">
     <div class="ps-hero__content ">
-        <h1> Checkout Hari Ini</h1>
+        <h1> Checkout Preorder</h1>
         <div class="text-center">
             Keranjang > Checkout
         </div>
@@ -9,7 +9,7 @@
 <main class="ps-main">
     <div class="ps-checkout">
         <div class="container">
-            <form class="ps-form--checkout" action="<?= base_url() ?>Checkout/save_booking" method="post">
+            <form class="ps-form--checkout" action="<?= base_url() ?>Checkout/save_order" method="post">
                 <div class="row">
                     <div class="col-lg-7 col-md-8 col-sm-12 col-xs-12 ">
                         <div class="ps-checkout__billing px-0">
@@ -35,14 +35,7 @@
                                     <input class="form-control" type="number" placeholder="no HP Anda" name="no_hp" required>
                                 </div>
                             </div>
-                            <!-- <div class="form-group">
-                                <label class="m-0"><span></span>
-                                </label>
-                                <div class="form-group__content">
-                                    <input class="form-control-sm" type="checkbox" id="ambil" name="checkbox" value="ambil"> <span>Saya akan ambil langsung di toko</span>
-                                </div>
-                            </div> -->
-                            <!-- <div id="kota-div" class="form-group form-group--inline  d-flex align-items-center">
+                            <div class="form-group form-group--inline  d-flex align-items-center">
                                 <label class="m-0">Kota<span>*</span>
                                 </label>
                                 <div class="form-group__content">
@@ -53,20 +46,22 @@
                                         <?php endforeach ?>
                                     </select>
                                 </div>
-                            </div> -->
+                            </div>
                             <div class="form-group form-group--inline  d-flex align-items-center">
-                                <label class="m-0">Alamat<span></span>
+                                <label class="m-0">Alamat<span>*</span>
                                 </label>
                                 <div class="form-group__content">
-                                    <textarea class="form-control" rows="5" placeholder="alamat Anda" name="alamat"></textarea>
+                                    <textarea class="form-control" rows="5" placeholder="alamat lengkap Anda" name="alamat" required></textarea>
                                 </div>
                             </div>
                             <div class="form-group form-group--inline  d-flex align-items-center">
-                                <label class="m-0">Waktu Pengambilan<span>*</span>
+                                <label class="m-0">Tanggal Pengiriman<span>*</span>
                                 </label>
                                 <div class="form-group__content">
-                                    <?php $today = date('H:i'); ?>
-                                    <input class="form-control" type="text" placeholder="waktu pengambilan" onfocus="(this.type='time')" name="tanggal_kirim" min="<?= $today ?>" required>
+                                    <?php $today = date('Y-m-d');
+                                    $tgl = date('Y-m-d', strtotime('+3 days', strtotime($today)));
+                                    ?>
+                                    <input class="form-control" type="text" placeholder="minimal tanggal kirim" onfocus="(this.type='date')" name="tanggal_kirim" min="<?= $tgl ?>" required>
                                 </div>
                             </div>
                             <div class="form-group form-group--inline  d-flex align-items-center">
@@ -129,7 +124,7 @@
                                     <div class="col-4 font-weight-bold" id="total">
                                         Rp <?= number_format($this->cart->total(), '0', ',', '.') ?>
                                     </div>
-                                    <input type="hidden" name="total_belanja" value="<?= $this->cart->total() ?>" id="total_belanja">
+                                    <input type="hidden" name="total_belanja" id="total_belanja">
                                     <input type="hidden" name="ongkir" id="ongkos">
                                 </div>
                             </div>
@@ -179,9 +174,7 @@
         </div>
     </div>
 </div>
-
-
-<!-- <script>
+<script>
     function cek_ongkir(sel) {
         var opt = sel.options[sel.selectedIndex];
         var price = opt.dataset.ongkir;
@@ -212,4 +205,4 @@
         rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
         return prefix == undefined ? rupiah : (rupiah ? 'Rp ' + rupiah : '');
     }
-</script> -->
+</script>

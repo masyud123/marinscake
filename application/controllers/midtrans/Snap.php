@@ -39,6 +39,8 @@ class Snap extends CI_Controller
 		$id_preorder = $this->input->post('id_preorder');
 		$total_bayar = $this->input->post('total_bayar');
 
+		$booking = $this->db->get_where('preorder', array('id_preorder' => $id_preorder))->row()->booking;
+
 		$pengiriman		= $this->Model_preorder->get_pengiriman($id_preorder)->row();
 		$item			= $this->Model_preorder->get_detailPreorder($id_preorder)->result_array();
 
@@ -65,33 +67,62 @@ class Snap extends CI_Controller
 				'name'      => $xyz['nama_produk'],
 			);
 		}
-		$item_details[] = array(
-			'price' => (int)$pengiriman->ongkir,
-			'quantity' => 1,
-			'name' => "Ongkir"
-		);
+		if ($booking == 0) {
+			$item_details[] = array(
+				'price' => (int)$pengiriman->ongkir,
+				'quantity' => 1,
+				'name' => "Ongkir"
+			);
+		}
+
 
 		// Optional
-		$billing_address = array(
-			'first_name'    => $pengiriman->nama,
-			// 'last_name'     => "Litani",
-			'address'       => $pengiriman->alamat,
-			'city'          => $pengiriman->nama_kota,
-			// 'postal_code'   => "16602",
-			'phone'         => $pengiriman->no_hp,
-			'country_code'  => 'IDN'
-		);
+		if ($booking == 0) {
+			$billing_address = array(
+				'first_name'    => $pengiriman->nama,
+				// 'last_name'     => "Litani",
+				'address'       => $pengiriman->alamat,
+				'city'          => $pengiriman->nama_kota,
+				// 'postal_code'   => "16602",
+				'phone'         => $pengiriman->no_hp,
+				'country_code'  => 'IDN'
+			);
+		} else {
+			$billing_address = array(
+				'first_name'    => $pengiriman->nama,
+				// 'last_name'     => "Litani",
+				'address'       => $pengiriman->alamat,
+				// 'city'          => $pengiriman->nama_kota,
+				// 'postal_code'   => "16602",
+				'phone'         => $pengiriman->no_hp,
+				'country_code'  => 'IDN'
+			);
+		}
+
 
 		// Optional
-		$shipping_address = array(
-			'first_name'    => $pengiriman->nama,
-			// 'last_name'     => "Litani",
-			'address'       => $pengiriman->alamat,
-			'city'          => $pengiriman->nama_kota,
-			// 'postal_code'   => "16602",
-			'phone'         => $pengiriman->no_hp,
-			'country_code'  => 'IDN'
-		);
+		if ($booking == 0) {
+			$shipping_address = array(
+				'first_name'    => $pengiriman->nama,
+				// 'last_name'     => "Litani",
+				'address'       => $pengiriman->alamat,
+				'city'          => $pengiriman->nama_kota,
+				// 'postal_code'   => "16602",
+				'phone'         => $pengiriman->no_hp,
+				'country_code'  => 'IDN'
+			);
+		} else {
+			$shipping_address = array(
+				'first_name'    => $pengiriman->nama,
+				// 'last_name'     => "Litani",
+				'address'       => $pengiriman->alamat,
+				// 'city'          => $pengiriman->nama_kota,
+				// 'postal_code'   => "16602",
+				'phone'         => $pengiriman->no_hp,
+				'country_code'  => 'IDN'
+			);
+		}
+
 
 		// Optional
 		$customer_details = array(
@@ -109,11 +140,20 @@ class Snap extends CI_Controller
 		//$credit_card['save_card'] = true;
 
 		$time = time();
-		$custom_expiry = array(
-			'start_time' => date("Y-m-d H:i:s O", $time),
-			'unit' => 'day',
-			'duration'  => 1
-		);
+		if ($booking == 0) {
+			$custom_expiry = array(
+				'start_time' => date("Y-m-d H:i:s O", $time),
+				'unit' => 'day',
+				'duration'  => 1
+			);
+		} else {
+			$custom_expiry = array(
+				'start_time' => date("Y-m-d H:i:s O", $time),
+				'unit' => 'minute',
+				'duration'  => 5
+			);
+		}
+
 
 		$transaction_data = array(
 			'transaction_details' => $transaction_details,

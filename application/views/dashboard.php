@@ -84,8 +84,14 @@
                             </div>
                             <div class="ps-product__content">
                                 <a class="ps-product__title" href="<?= base_url() ?>Produk/detail/<?= $prd['id_produk'] ?>"><?= $prd['nama_produk'] ?></a>
-                                <p>
+                                <!-- <p>
                                     min order <?= $prd['min_order'] ?> pcs
+                                </p>
+                                <p>
+                                    stok <?= $prd['stok'] ?> pcs
+                                </p> -->
+                                <p>
+                                    <?= substr($prd['deskripsi'], 0, 20) ?>...
                                 </p>
                                 <p class="ps-product__price">Rp <?= number_format($prd['harga'], '0', ',', '.') ?></p>
                             </div>

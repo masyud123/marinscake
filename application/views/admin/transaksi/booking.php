@@ -6,20 +6,20 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
                         <h4>
-                            Daftar Transaksi Preorder
+                            Daftar Transaksi Booking
                         </h4>
                         <div class="text-right">
                             <div class="row">
-                                <button class="btn btn-info d-flex mr-2" type="button" onclick="window.location.href='<?php echo base_url('admin/Transaksi/barang_belum_dibayar/') ?>'">
+                                <button class="btn btn-info d-flex mr-2" type="button" onclick="window.location.href='<?php echo base_url('admin/Transaksi/booking_belum_dibayar/') ?>'">
                                     Belum Dibayar
                                     <div class="bg-white text-dark ml-2" style="width: 25px; height: auto; border-radius: 100%;">
                                         <strong><?= count($barang_belum_dibayar) ?></strong>
                                     </div>
                                 </button>
-                                <button class="btn btn-success d-flex" type="button" onclick="window.location.href='<?php echo base_url('admin/Transaksi/barang_belum_dikirim/') ?>'">
-                                    Belum Dikirim
+                                <button class="btn btn-success d-flex" type="button" onclick="window.location.href='<?php echo base_url('admin/Transaksi/barang_belum_diambil/') ?>'">
+                                    Belum Diambil
                                     <div class="bg-white text-dark ml-2" style="width: 25px; height: auto; border-radius: 100%;">
-                                        <strong><?= count($barang_belum_dikirim) ?></strong>
+                                        <strong><?= count($barang_belum_diambil) ?></strong>
                                     </div>
                                 </button>
                             </div>
@@ -45,7 +45,7 @@
                                         <th>Jumlah Transaksi</th>
                                         <th>Metode</th>
                                         <th>Tanggal Pesan</th>
-                                        <th>Tanggal Dikirim</th>
+                                        <th>Tanggal Diambil</th>
                                         <th>Status</th>
                                         <th>Aksi</th>
                                     </tr>
@@ -53,7 +53,7 @@
                                 <tbody>
                                     <?php
                                     $no = 1;
-                                    foreach ($riwayat_preorder as $rw_pr) : ?>
+                                    foreach ($riwayat_booking as $rw_pr) : ?>
                                         <tr>
                                             <td class="text-center">
                                                 <?= $no++ ?>
@@ -71,7 +71,11 @@
                                                 <?= $rw_pr['tanggal_dikirim'] ?>
                                             </td>
                                             <td>
-                                                <?= $rw_pr['status'] ?>
+                                                <?php if ($rw_pr['status'] == 'Menunggu Pengiriman') {
+                                                    echo "Menunggu Diambil";
+                                                } else {
+                                                    echo $rw_pr['status'];
+                                                } ?>
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-around">
@@ -93,7 +97,7 @@
     </section>
 </div>
 <!-- modal detail Transaksi -->
-<?php foreach ($riwayat_preorder as $rw_pr) : ?>
+<?php foreach ($riwayat_booking as $rw_pr) : ?>
     <div class="modal fade bd-example-modal-lg" id="modal_detail_preorder<?= $rw_pr['id_preorder'] ?>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -135,9 +139,9 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label>
-                                    Alamat Pengiriman
+                                    Alamat
                                 </label>
-                                <textarea class="form-control" readonly><?= $rw_pr['alamat'] ?>, <?= $rw_pr['nama_kota'] ?></textarea>
+                                <textarea class="form-control" readonly><?= $rw_pr['alamat'] ?></textarea>
                             </div>
                         </div>
                     </div>
@@ -160,7 +164,7 @@
                             <tbody>
                                 <?php
                                 $no = 1;
-                                foreach ($detail_preorder as $dt_tr) :
+                                foreach ($detail_booking as $dt_tr) :
                                     if ($rw_pr['id_preorder'] == $dt_tr['id_preorder']) : ?>
                                         <tr>
                                             <td class="text-center">
@@ -181,7 +185,7 @@
                                         </tr>
                                 <?php endif;
                                 endforeach; ?>
-                                <tr>
+                                <!-- <tr>
                                     <td class="text-center">
                                         <?= $no++ ?>
                                     </td>
@@ -195,7 +199,7 @@
                                     <td>
                                         Rp <?= number_format($rw_pr['ongkir'], 0, '', '.') ?>
                                     </td>
-                                </tr>
+                                </tr> -->
                             </tbody>
                             <tfooter>
                                 <td class="text-center" colspan="4"><strong>Total Belanja</strong></td>
@@ -212,12 +216,12 @@
     </div>
 <?php endforeach; ?>
 <!-- Modal edit preorder-->
-<?php foreach ($riwayat_preorder as $rw_pr) : ?>
+<?php foreach ($riwayat_booking as $rw_pr) : ?>
     <div class="modal fade" id="modal_edit_preorder<?php echo $rw_pr['id_preorder'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-center">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Edit Preorder</h5>
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Edit Booking</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -266,9 +270,9 @@
                                                 endif; ?>>
                                             Selesai
                                         </option>
-                                        <option <?php if ($rw_pr['status'] == 'Menunggu Pengiriman') : echo "selected";
+                                        <option <?php if ($rw_pr['status'] == 'Menunggu Diambil') : echo "selected";
                                                 endif; ?>>
-                                            Menunggu Pengiriman
+                                            Menunggu Diambil
                                         </option>
                                     </select>
                                 </div>
@@ -276,9 +280,9 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>
-                                        Tanggal Pengiriman
+                                        Waktu Pengambilan
                                     </label>
-                                    <input type="date" min="<?= date('Y-m-d', strtotime($rw_pr['tanggal_pesan'])) ?>" name="tanggalDikirim" class="form-control" oninvalid="this.setCustomValidity('Form input tidak boleh kosong!')" oninput="setCustomValidity('')" required value="<?= $rw_pr['tanggal_dikirim'] ?>">
+                                    <input type="datetime-local" value="<?= date('Y-m-d\TH:i:s', strtotime($rw_pr['tanggal_dikirim'])); ?>" name="tanggalDikirim" class="form-control" oninvalid="this.setCustomValidity('Form input tidak sesuai!')" oninput="setCustomValidity('')" required>
                                 </div>
                             </div>
                         </div>
@@ -303,7 +307,7 @@
     function hapus_riwayat_preorder($idPreorder) {
         swal({
             title: "Hapus Transaksi Preorder",
-            text: "Apakah anda yakin ingin menghapus transaksi preorder ini ?",
+            text: "Apakah anda yakin ingin menghapus transaksi booking ini ?",
             icon: "warning",
             buttons: true,
             dangerMode: true,
@@ -311,13 +315,13 @@
             if (willDelete) {
                 window.location = "<?php echo base_url('admin/Transaksi/hapus_preorder/') ?>" + $idPreorder;
             } else {
-                swal("Data preorder batal dihapus");
+                swal("Data booking batal dihapus");
             }
         });
     }
 
     function filter() {
         var tanggal = document.getElementById('filter_tanggal').value;
-        window.location = "<?php echo base_url('admin/Transaksi/preorder/') ?>" + tanggal;
+        window.location = "<?php echo base_url('admin/Transaksi/booking/') ?>" + tanggal;
     }
 </script>

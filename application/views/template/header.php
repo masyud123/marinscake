@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="<?= base_url() ?>assets/client/plugins/slick/slick/slick.css" />
     <link rel="stylesheet" href="<?= base_url() ?>assets/client/plugins/lightGallery-master/dist/css/lightgallery.min.css" />
     <link rel="stylesheet" href="<?= base_url() ?>assets/client/css/style.css" />
-    
+
     <link rel='shortcut icon' type='image/x-icon' href='<?= base_url() ?>assets/img/marinscake-logo.png' />
 
     <!-- swal -->
@@ -67,7 +67,7 @@
                     </div>
                     <div class="col-5 d-flex align-items-center justify-content-between pl-5">
                         <ul class="menu d-flex justify-content-between w-75">
-                            <li><a href="<?= base_url() ?>checkout">Checkout</a></li>
+                            <li><a href="<?= base_url() ?>keranjang">Checkout</a></li>
                             <li><a href="<?= base_url() ?>#company-info">About</a></li>
                         </ul>
                         <div class="header__actions w-50 text-right">

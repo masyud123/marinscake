@@ -81,9 +81,27 @@ class Transaksi extends CI_Controller
         $data['barang_belum_dikirim']   = $this->Model_transaksi->barang_belum_dikirim()->result_array();
         $data['barang_belum_dibayar']   = $this->Model_transaksi->barang_belum_dibayar()->result_array();
         $data['data_midtrans']          = $this->db->get('midtrans')->result_array();
+        // echo json_encode($data['detail_preorder']);
+        // exit;
         $this->load->view('admin/template/header');
         $this->load->view('admin/template/sidebar');
         $this->load->view('admin/transaksi/preorder', $data);
+        $this->load->view('admin/template/footer');
+    }
+    // Tampil Data Transaksi Preorder
+    public function booking($tanggal)
+    {
+        $data['tanggal'] = $tanggal;
+        $data['riwayat_booking']       = $this->Model_transaksi->get_riwayat_booking($tanggal)->result_array();
+        $data['detail_booking']        = $this->Model_transaksi->detail_riwayat_preorder()->result_array();
+        $data['barang_belum_diambil']   = $this->Model_transaksi->barang_belum_diambil()->result_array();
+        $data['barang_belum_dibayar']   = $this->Model_transaksi->booking_belum_dibayar()->result_array();
+        $data['data_midtrans']          = $this->db->get('midtrans')->result_array();
+        // echo json_encode($data['barang_belum_diambil']);
+        // exit;
+        $this->load->view('admin/template/header');
+        $this->load->view('admin/template/sidebar');
+        $this->load->view('admin/transaksi/booking', $data);
         $this->load->view('admin/template/footer');
     }
 
@@ -100,7 +118,7 @@ class Transaksi extends CI_Controller
         $this->load->view('admin/transaksi/barang_belum_dikirim', $data);
         $this->load->view('admin/template/footer');
     }
-    
+
     // Tampil Data Transaksi belum dibayar
     public function barang_belum_dibayar()
     {
@@ -141,13 +159,13 @@ class Transaksi extends CI_Controller
     public function hapus_preorder($idPreorder)
     {
         $where = array('id_preorder' => $idPreorder);
-        
+
         $preorder = $this->db->get_where('detail_preorder', $where);
-        
-        if($preorder == null) {
+
+        if ($preorder == null) {
             $hapus = $this->db->delete('preorder', $where);
-            
-            if($hapus) {
+
+            if ($hapus) {
                 $this->session->set_flashdata(
                     'preorder',
                     '<script type ="text/JavaScript">  
@@ -170,6 +188,6 @@ class Transaksi extends CI_Controller
                 </script>'
             );
         }
-        header("Location: " . $_SERVER['HTTP_REFERER']);   
+        header("Location: " . $_SERVER['HTTP_REFERER']);
     }
 }

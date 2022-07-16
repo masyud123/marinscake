@@ -1,3 +1,29 @@
+<?php
+function tgl_indo($tanggal)
+{
+    $bulan = array(
+        1 =>   'Januari',
+        'Februari',
+        'Maret',
+        'April',
+        'Mei',
+        'Juni',
+        'Juli',
+        'Agustus',
+        'September',
+        'Oktober',
+        'November',
+        'Desember'
+    );
+    $pecahkan = explode('-', $tanggal);
+
+    // variabel pecahkan 0 = tanggal
+    // variabel pecahkan 1 = bulan
+    // variabel pecahkan 2 = tahun
+
+    return $pecahkan[2] . ' ' . $bulan[(int)$pecahkan[1]] . ' ' . $pecahkan[0];
+} ?>
+
 <form id="payment-form" method="post" action="<?= site_url() ?>midtrans/Snap/finish">
     <input type="hidden" name="result_type" id="result-type" value="">
     <input type="hidden" name="result_data" id="result-data" value="">
@@ -39,13 +65,15 @@
                                     <input class="form-control" type="number" value="<?= $pengiriman->no_hp ?>" disabled>
                                 </div>
                             </div>
-                            <div class="form-group form-group--inline  d-flex align-items-center">
-                                <label class="m-0">Kota<span></span>
-                                </label>
-                                <div class="form-group__content">
-                                    <input class="form-control" type="text" value="<?= $pengiriman->nama_kota ?>" disabled>
+                            <?php if ($preorder->booking == 0) : ?>
+                                <div class="form-group form-group--inline  d-flex align-items-center">
+                                    <label class="m-0">Kota<span></span>
+                                    </label>
+                                    <div class="form-group__content">
+                                        <input class="form-control" type="text" value="<?= $pengiriman->nama_kota ?>" disabled>
+                                    </div>
                                 </div>
-                            </div>
+                            <?php endif ?>
                             <div class="form-group form-group--inline  d-flex align-items-center">
                                 <label class="m-0">Alamat<span></span>
                                 </label>
@@ -53,13 +81,23 @@
                                     <textarea class="form-control" rows="5" placeholder="<?= $pengiriman->alamat ?>" disabled></textarea>
                                 </div>
                             </div>
-                            <div class="form-group form-group--inline  d-flex align-items-center">
-                                <label class="m-0">Tanggal Pengiriman<span></span>
-                                </label>
-                                <div class="form-group__content">
-                                    <input class="form-control" type="text" value="<?= date('j F Y', strtotime($preorder->tanggal_dikirim)) ?>" disabled>
+                            <?php if ($preorder->booking == 0) : ?>
+                                <div class="form-group form-group--inline  d-flex align-items-center">
+                                    <label class="m-0">Tanggal Pengiriman<span></span>
+                                    </label>
+                                    <div class="form-group__content">
+                                        <input class="form-control" type="text" value="<?= tgl_indo($preorder->tanggal_dikirim) ?>" disabled>
+                                    </div>
                                 </div>
-                            </div>
+                            <?php else : ?>
+                                <div class="form-group form-group--inline  d-flex align-items-center">
+                                    <label class="m-0">Waktu Pengambilan<span></span>
+                                    </label>
+                                    <div class="form-group__content">
+                                        <input class="form-control" type="text" value="<?= tgl_indo(date('Y-m-d', strtotime($preorder->tanggal_dikirim))) . ' ' . date('H:i', strtotime($preorder->tanggal_dikirim)) . ' WIB' ?>" disabled>
+                                    </div>
+                                </div>
+                            <?php endif ?>
                             <div class="form-group form-group--inline  d-flex align-items-center">
                                 <label class="m-0">Catatan Pesanan</label>
                                 <div class="form-group__content">
@@ -104,14 +142,16 @@
                                         </div>
                                     </div>
                                 <?php endforeach ?>
-                                <div class="row my-3">
-                                    <div class="col-8">
-                                        Ongkir
+                                <?php if ($preorder->booking == 0) : ?>
+                                    <div class="row my-3">
+                                        <div class="col-8">
+                                            Ongkir
+                                        </div>
+                                        <div class="col-4">
+                                            Rp <?= number_format($pengiriman->ongkir, '0', ',', '.') ?>
+                                        </div>
                                     </div>
-                                    <div class="col-4">
-                                        Rp <?= number_format($pengiriman->ongkir, '0', ',', '.') ?>
-                                    </div>
-                                </div>
+                                <?php endif ?>
                                 <hr style="border-top: 1px solid white">
                                 <div class="row mt-3 text-uppercase">
                                     <div class="col-8 font-weight-bold">

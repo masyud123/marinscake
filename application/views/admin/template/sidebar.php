@@ -22,6 +22,7 @@
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="<?php echo base_url() ?>admin/transaksi/langsung/<?= date('Y-m') ?>">Transaksi Langsung</a></li>
                     <li><a class="nav-link" href="<?php echo base_url() ?>admin/transaksi/preorder/<?= date('Y-m') ?>">Transaksi Preorder</a></li>
+                    <li><a class="nav-link" href="<?php echo base_url() ?>admin/transaksi/booking/<?= date('Y-m') ?>">Transaksi Booking</a></li>
                 </ul>
             </li>
             <li class="menu-header">Laporan</li>

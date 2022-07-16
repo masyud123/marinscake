@@ -30,6 +30,19 @@ class Model_transaksi extends CI_Model
         $this->db->join('pengiriman', 'preorder.id_preorder = pengiriman.id_preorder');
         $this->db->join('daerah_kirim', 'pengiriman.id_daerah = daerah_kirim.id_daerah');
         $this->db->order_by('tanggal_pesan', 'DESC');
+        $this->db->where('preorder.booking', 0);
+        return $this->db->get();
+    }
+
+    // get data booking sesuai parameter
+    public function get_riwayat_booking($tanggal)
+    {
+        $this->db->select('*');
+        $this->db->from('preorder');
+        $this->db->like('tanggal_pesan', $tanggal);
+        $this->db->join('pengiriman', 'preorder.id_preorder = pengiriman.id_preorder');
+        $this->db->order_by('tanggal_pesan', 'DESC');
+        $this->db->where('preorder.booking', 1);
         return $this->db->get();
     }
 
@@ -50,10 +63,23 @@ class Model_transaksi extends CI_Model
         $this->db->join('pengiriman', 'preorder.id_preorder = pengiriman.id_preorder');
         $this->db->join('daerah_kirim', 'pengiriman.id_daerah = daerah_kirim.id_daerah');
         $this->db->order_by('tanggal_pesan', 'DESC');
+        $this->db->where('preorder.booking', 0);
         $this->db->where('status', 'Menunggu Pengiriman');
         return $this->db->get();
     }
-    
+
+    // get data booking where status menunggu diambil
+    public function barang_belum_diambil()
+    {
+        $this->db->select('*');
+        $this->db->from('preorder');
+        $this->db->join('pengiriman', 'preorder.id_preorder = pengiriman.id_preorder');
+        $this->db->order_by('tanggal_pesan', 'DESC');
+        $this->db->where('preorder.booking', 1);
+        $this->db->where('status', 'Menunggu Diambil');
+        return $this->db->get();
+    }
+
     // get data preorder where status belum dibayar
     public function barang_belum_dibayar()
     {
@@ -62,7 +88,20 @@ class Model_transaksi extends CI_Model
         $this->db->join('pengiriman', 'preorder.id_preorder = pengiriman.id_preorder');
         $this->db->join('daerah_kirim', 'pengiriman.id_daerah = daerah_kirim.id_daerah');
         $this->db->order_by('tanggal_pesan', 'DESC');
+        $this->db->where('preorder.booking', 0);
         $this->db->where('status', 'Menunggu Pembayaran');
+        return $this->db->get();
+    }
+
+    // get data booking where status belum dibayar
+    public function booking_belum_dibayar()
+    {
+        $this->db->select('*');
+        $this->db->from('preorder');
+        $this->db->join('pengiriman', 'preorder.id_preorder = pengiriman.id_preorder');
+        $this->db->order_by('tanggal_pesan', 'DESC');
+        $this->db->where('status', 'Menunggu Pembayaran');
+        $this->db->where('preorder.booking', 1);
         return $this->db->get();
     }
 
@@ -108,6 +147,6 @@ class Model_transaksi extends CI_Model
         $this->db->select('ongkir');
         $this->db->from('daerah_kirim');
         $this->db->where('id_daerah', $id_daerah);
-        return $this->db->get();   
+        return $this->db->get();
     }
 }

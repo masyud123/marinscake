@@ -63,55 +63,55 @@
                     produk_id: produk_id
                 },
                 success: function(data) {
-                    if (data == 0) {
-                        if (quantity < min_order) {
-                            swal('Gagal', 'Jumlah produk kurang dari minimal order', 'error');
-                        } else {
-                            $.ajax({
-                                url: "<?php echo base_url(); ?>Keranjang/add_to_cart",
-                                method: "POST",
-                                data: {
-                                    produk_id: produk_id,
-                                    produk_nama: produk_nama,
-                                    produk_harga: produk_harga,
-                                    produk_gambar: produk_gambar,
-                                    min_order: min_order,
-                                    quantity: quantity
-                                },
-                                dataType: 'json',
-                                success: function(response) {
-                                    $('#detail_cart').html(response.cart);
-                                    $('#detail_cart2').html(response.cart);
-                                    var a1 = ' ditambahkan ke keranjang ';
-                                    var a2 = ' pcs';
-                                    var text = produk_nama + a1 + quantity + a2;
-                                    swal('Sukses', text, 'success');
-                                }
-                            });
+                    // if (data == 0) {
+                    //     if (quantity < min_order) {
+                    //         swal('Gagal', 'Jumlah produk kurang dari minimal order', 'error');
+                    //     } else {
+                    //         $.ajax({
+                    //             url: "<?php echo base_url(); ?>Keranjang/add_to_cart",
+                    //             method: "POST",
+                    //             data: {
+                    //                 produk_id: produk_id,
+                    //                 produk_nama: produk_nama,
+                    //                 produk_harga: produk_harga,
+                    //                 produk_gambar: produk_gambar,
+                    //                 min_order: min_order,
+                    //                 quantity: quantity
+                    //             },
+                    //             dataType: 'json',
+                    //             success: function(response) {
+                    //                 $('#detail_cart').html(response.cart);
+                    //                 $('#detail_cart2').html(response.cart);
+                    //                 var a1 = ' ditambahkan ke keranjang ';
+                    //                 var a2 = ' pcs';
+                    //                 var text = produk_nama + a1 + quantity + a2;
+                    //                 swal('Sukses', text, 'success');
+                    //             }
+                    //         });
+                    //     }
+                    // } else {
+                    $.ajax({
+                        url: "<?php echo base_url(); ?>Keranjang/add_to_cart",
+                        method: "POST",
+                        data: {
+                            produk_id: produk_id,
+                            produk_nama: produk_nama,
+                            produk_harga: produk_harga,
+                            produk_gambar: produk_gambar,
+                            min_order: min_order,
+                            quantity: quantity
+                        },
+                        dataType: 'json',
+                        success: function(response) {
+                            $('#detail_cart').html(response.cart);
+                            $('#detail_cart2').html(response.cart);
+                            var a1 = ' ditambahkan ke keranjang ';
+                            var a2 = ' pcs';
+                            var text = produk_nama + a1 + quantity + a2;
+                            swal('Sukses', text, 'success');
                         }
-                    } else {
-                        $.ajax({
-                            url: "<?php echo base_url(); ?>Keranjang/add_to_cart",
-                            method: "POST",
-                            data: {
-                                produk_id: produk_id,
-                                produk_nama: produk_nama,
-                                produk_harga: produk_harga,
-                                produk_gambar: produk_gambar,
-                                min_order: min_order,
-                                quantity: quantity
-                            },
-                            dataType: 'json',
-                            success: function(response) {
-                                $('#detail_cart').html(response.cart);
-                                $('#detail_cart2').html(response.cart);
-                                var a1 = ' ditambahkan ke keranjang ';
-                                var a2 = ' pcs';
-                                var text = produk_nama + a1 + quantity + a2;
-                                swal('Sukses', text, 'success');
-                            }
-                        });
-                    }
+                    });
+                    // }
                 }
             });
         });
@@ -130,11 +130,11 @@
                     produk_id: produk_id
                 },
                 success: function(data) {
-                    if (data == 0) {
-                        quantity = min_order;
-                    } else {
-                        quantity = 1;
-                    }
+                    // if (data == 0) {
+                    //     quantity = min_order;
+                    // } else {
+                    quantity = 1;
+                    // }
                     $.ajax({
                         url: "<?php echo base_url(); ?>Keranjang/add_to_cart",
                         method: "POST",
@@ -164,24 +164,24 @@
             var min_order = $(this).data("minorder");
             var qty = document.getElementById('qty' + produk_id).value;
 
-            if (qty < min_order) {
-                swal('Gagal', 'Minimal order ' + produk_nama + ' adalah ' + min_order + ' pcs', 'error');
-            } else {
-                $.ajax({
-                    url: "<?php echo base_url(); ?>Keranjang/update_cart",
-                    method: "POST",
-                    data: {
-                        row_id: row_id,
-                        quantity: qty
-                    },
-                    dataType: 'json',
-                    success: function(response) {
-                        $('#detail_cart').html(response.cart);
-                        $('#detail_cart2').html(response.cart);
-                        $('#detail_keranjang').html(response.cart2);
-                    }
-                })
-            }
+            // if (qty < min_order) {
+            //     swal('Gagal', 'Minimal order ' + produk_nama + ' adalah ' + min_order + ' pcs', 'error');
+            // } else {
+            $.ajax({
+                url: "<?php echo base_url(); ?>Keranjang/update_cart",
+                method: "POST",
+                data: {
+                    row_id: row_id,
+                    quantity: qty
+                },
+                dataType: 'json',
+                success: function(response) {
+                    $('#detail_cart').html(response.cart);
+                    $('#detail_cart2').html(response.cart);
+                    $('#detail_keranjang').html(response.cart2);
+                }
+            })
+            // }
         });
 
         $(document).on('click', '.min_cart', function() {
@@ -191,25 +191,25 @@
             var min_order = $(this).data("minorder");
             var qty = document.getElementById('qty' + produk_id).value;
 
-            if (qty <= min_order) {
-                swal('Gagal', 'Minimal order ' + produk_nama + ' adalah ' + min_order + ' pcs', 'error');
-            } else {
-                qty--;
-                $.ajax({
-                    url: "<?php echo base_url(); ?>Keranjang/update_cart",
-                    method: "POST",
-                    data: {
-                        row_id: row_id,
-                        quantity: qty
-                    },
-                    dataType: 'json',
-                    success: function(response) {
-                        $('#detail_cart').html(response.cart);
-                        $('#detail_cart2').html(response.cart);
-                        $('#detail_keranjang').html(response.cart2);
-                    }
-                });
-            }
+            // if (qty <= min_order) {
+            //     swal('Gagal', 'Minimal order ' + produk_nama + ' adalah ' + min_order + ' pcs', 'error');
+            // } else {
+            qty--;
+            $.ajax({
+                url: "<?php echo base_url(); ?>Keranjang/update_cart",
+                method: "POST",
+                data: {
+                    row_id: row_id,
+                    quantity: qty
+                },
+                dataType: 'json',
+                success: function(response) {
+                    $('#detail_cart').html(response.cart);
+                    $('#detail_cart2').html(response.cart);
+                    $('#detail_keranjang').html(response.cart2);
+                }
+            });
+            // }
         });
 
         $('#detail_keranjang').load("<?php echo base_url(); ?>Keranjang/load_cart2");
@@ -232,6 +232,79 @@
                     swal('Hapus', nama + ' dikeluarkan dari keranjang', 'success');
                 }
             });
+        });
+        $(document).on('click', '.checkout-booking', function() {
+            $.ajax({
+                url: "<?php echo base_url(); ?>keranjang/cek_stok_cart",
+                method: "POST",
+                success: function(data) {
+                    // alert(data);
+                    if (data == "false") {
+                        swal({
+                            title: "Warning",
+                            text: "Stok produk tidak mencukupi! Sesuaikan dengan stok maksimal?",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        }).then((proses) => {
+                            if (proses) {
+                                $.ajax({
+                                    url: "<?php echo base_url(); ?>Keranjang/update_stok_cart",
+                                    method: "POST",
+                                    dataType: 'json',
+                                    success: function(response) {
+                                        $('#detail_cart').html(response.cart);
+                                        $('#detail_cart2').html(response.cart);
+                                        $('#detail_keranjang').html(response.cart2);
+                                    }
+                                });
+                            } else {
+                                swal("Batal");
+                            }
+                        });
+                    } else {
+                        window.location = "<?= base_url('checkout') ?>";
+                    }
+                }
+            });
+
+        });
+
+        $(document).on('click', '.checkout-preorder', function() {
+            $.ajax({
+                url: "<?php echo base_url(); ?>keranjang/cek_min_cart",
+                method: "POST",
+                success: function(data) {
+                    // alert(data);
+                    if (data == "false") {
+                        swal({
+                            title: "Warning",
+                            text: "Minimal order produk tidak mencukupi! Sesuaikan dengan minimal order?",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        }).then((proses) => {
+                            if (proses) {
+                                $.ajax({
+                                    url: "<?php echo base_url(); ?>Keranjang/update_min_cart",
+                                    method: "POST",
+                                    dataType: 'json',
+                                    success: function(response) {
+                                        $('#detail_cart').html(response.cart);
+                                        $('#detail_cart2').html(response.cart);
+                                        $('#detail_keranjang').html(response.cart2);
+                                    }
+                                });
+                            } else {
+                                swal("Batal");
+                            }
+                        });
+                    } else {
+                        window.location = "<?= base_url('checkout/preorder') ?>";
+                    }
+                }
+            });
+
         });
     });
 </script>
