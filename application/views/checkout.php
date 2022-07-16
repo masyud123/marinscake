@@ -18,21 +18,21 @@
                                 <label class="m-0">Nama<span>*</span>
                                 </label>
                                 <div class="form-group__content">
-                                    <input class="form-control" name="nama" placeholder="nama Anda" type="text" required>
+                                    <input class="form-control" name="nama" placeholder="nama Anda" type="text" required oninvalid="this.setCustomValidity('Tidak boleh kosong')" oninput="setCustomValidity('')">
                                 </div>
                             </div>
                             <div class="form-group form-group--inline  d-flex align-items-center">
                                 <label class="m-0">Email<span>*</span>
                                 </label>
                                 <div class="form-group__content">
-                                    <input class="form-control" type="email" placeholder="email Anda" name="email" required>
+                                    <input class="form-control" type="email" placeholder="email Anda" name="email" required oninvalid="this.setCustomValidity('Email tidak sesuai')" oninput="setCustomValidity('')">
                                 </div>
                             </div>
                             <div class="form-group form-group--inline  d-flex align-items-center">
                                 <label class="m-0">No Hp<span>*</span>
                                 </label>
                                 <div class="form-group__content">
-                                    <input class="form-control" type="number" placeholder="no HP Anda" name="no_hp" required>
+                                    <input class="form-control" type="tel" placeholder="no HP Anda" name="no_hp" pattern="\d*" minlength="9" maxlength="13" required oninvalid="this.setCustomValidity('No HP tidak sesuai')" oninput="setCustomValidity('')">
                                 </div>
                             </div>
                             <!-- <div class="form-group">
@@ -58,7 +58,7 @@
                                 <label class="m-0">Alamat<span></span>
                                 </label>
                                 <div class="form-group__content">
-                                    <textarea class="form-control" rows="5" placeholder="alamat Anda" name="alamat"></textarea>
+                                    <textarea class="form-control" rows="5" placeholder="alamat Anda" name="alamat" required oninvalid="this.setCustomValidity('Tidak boleh kosong')" oninput="setCustomValidity('')"></textarea>
                                 </div>
                             </div>
                             <div class="form-group form-group--inline  d-flex align-items-center">
@@ -66,7 +66,7 @@
                                 </label>
                                 <div class="form-group__content">
                                     <?php $today = date('H:i'); ?>
-                                    <input class="form-control" type="text" placeholder="waktu pengambilan" onfocus="(this.type='time')" name="tanggal_kirim" min="<?= $today ?>" required>
+                                    <input class="form-control" type="text" placeholder="waktu pengambilan" onfocus="(this.type='time')" name="tanggal_kirim" min="<?= $today ?>" required oninvalid="this.setCustomValidity('Tidak boleh kosong')" oninput="setCustomValidity('')">
                                 </div>
                             </div>
                             <div class="form-group form-group--inline  d-flex align-items-center">

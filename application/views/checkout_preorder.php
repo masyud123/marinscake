@@ -18,28 +18,28 @@
                                 <label class="m-0">Nama<span>*</span>
                                 </label>
                                 <div class="form-group__content">
-                                    <input class="form-control" name="nama" placeholder="nama Anda" type="text" required>
+                                    <input class="form-control" name="nama" placeholder="nama Anda" type="text" required oninvalid="this.setCustomValidity('Tidak boleh kosong')" oninput="setCustomValidity('')">
                                 </div>
                             </div>
                             <div class="form-group form-group--inline  d-flex align-items-center">
                                 <label class="m-0">Email<span>*</span>
                                 </label>
                                 <div class="form-group__content">
-                                    <input class="form-control" type="email" placeholder="email Anda" name="email" required>
+                                    <input class="form-control" type="email" placeholder="email Anda" name="email" required oninvalid="this.setCustomValidity('Email tidak sesuai')" oninput="setCustomValidity('')">
                                 </div>
                             </div>
                             <div class="form-group form-group--inline  d-flex align-items-center">
                                 <label class="m-0">No Hp<span>*</span>
                                 </label>
                                 <div class="form-group__content">
-                                    <input class="form-control" type="number" placeholder="no HP Anda" name="no_hp" required>
+                                    <input class="form-control" type="tel" placeholder="no HP Anda" name="no_hp" pattern="\d*" maxlength="13" required oninvalid="this.setCustomValidity('No HP tidak sesuai')" oninput="setCustomValidity('')">
                                 </div>
                             </div>
                             <div class="form-group form-group--inline  d-flex align-items-center">
                                 <label class="m-0">Kota<span>*</span>
                                 </label>
                                 <div class="form-group__content">
-                                    <select class="form-control selectric" name="kota" id="kota" onchange="cek_ongkir(this)" required>
+                                    <select class="form-control selectric" name="kota" id="kota" onchange="cek_ongkir(this)" required oninvalid="this.setCustomValidity('Tidak boleh kosong')" oninput="setCustomValidity('')">
                                         <option value="" hidden>pilih daerah pengiriman</option>
                                         <?php foreach ($kota as $kot) : ?>
                                             <option value="<?= $kot['id_daerah'] ?>" data-ongkir="<?= $kot['ongkir'] ?>"><?= $kot['nama_kota'] ?></option>
@@ -51,7 +51,7 @@
                                 <label class="m-0">Alamat<span>*</span>
                                 </label>
                                 <div class="form-group__content">
-                                    <textarea class="form-control" rows="5" placeholder="alamat lengkap Anda" name="alamat" required></textarea>
+                                    <textarea class="form-control" rows="5" placeholder="alamat lengkap Anda" name="alamat" required oninvalid="this.setCustomValidity('Tidak boleh kosong')" oninput="setCustomValidity('')"></textarea>
                                 </div>
                             </div>
                             <div class="form-group form-group--inline  d-flex align-items-center">
@@ -61,7 +61,7 @@
                                     <?php $today = date('Y-m-d');
                                     $tgl = date('Y-m-d', strtotime('+3 days', strtotime($today)));
                                     ?>
-                                    <input class="form-control" type="text" placeholder="minimal tanggal kirim" onfocus="(this.type='date')" name="tanggal_kirim" min="<?= $tgl ?>" required>
+                                    <input class="form-control" type="text" placeholder="minimal tanggal kirim" onfocus="(this.type='date')" name="tanggal_kirim" min="<?= $tgl ?>" required oninvalid="this.setCustomValidity('Tidak boleh kosong')" oninput="setCustomValidity('')">
                                 </div>
                             </div>
                             <div class="form-group form-group--inline  d-flex align-items-center">
