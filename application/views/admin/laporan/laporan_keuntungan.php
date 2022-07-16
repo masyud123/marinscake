@@ -16,17 +16,14 @@
                             <a href="<?php echo base_url('admin/cetak_pdf/cetak_keuntungan_pdf/' . $bulan) ?>" target="_blank" class="btn btn-warning ml-3"><i class="fas fa-file mr-2"></i>Export pdf</a>
                         </div>
                         <div class="table-responsive">
-                            <table class="table table-bordered table-hover">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">1</th>
-                                        <th colspan="3"><span class="ml-5">Pendapatan</span></th>
-                                        <th rowspan="3"></th>
-                                    </tr>
-                                </thead>
+                            <table class="table table-bordered">
                                 <tbody>
                                     <tr>
-                                        <td></td>
+                                        <th class="text-center bg-secondary">1</th>
+                                        <th class="bg-secondary" colspan="3"><span class="ml-5">Pendapatan</span></th>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="4"></td>
                                         <td class="text-center" colspan="2" width="400">Transaksi Langsung</td>
                                         <td>
                                             <?php foreach ($data_transaksi as $dt_trans); ?>
@@ -34,7 +31,6 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td></td>
                                         <td class="text-center" colspan="2">Transaksi Preorder</td>
                                         <td>
                                             <?php foreach ($data_preorder as $dt_pre); ?>
@@ -42,38 +38,40 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th></th>
-                                        <th class="text-center" colspan="3">Total Pendapatan</th>
-                                        <th class="text-center">Rp. <?= number_format($dt_pre['preorder'] + $dt_trans['langsung'], 0, '', '.') ?></th>
+                                        <td class="text-center" colspan="2">Transaksi Booking</td>
+                                        <td>
+                                            <?php foreach ($data_booking as $dt_book); ?>
+                                            Rp. <?= number_format($dt_book['preorder'], 0, '', '.') ?>
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <th class="text-center">2</th>
-                                        <th colspan="3"><span class="ml-5">Pengeluaran</span></th>
-                                        <th rowspan="5"></th>
+                                        <th class="text-center" colspan="2">Total Pendapatan</th>
+                                        <th>Rp. <?= number_format($dt_pre['preorder'] + $dt_trans['langsung'] + $dt_book['preorder'], 0, '', '.') ?></th>
                                     </tr>
                                     <tr>
-                                        <td></td>
+                                        <th class="text-center bg-secondary">2</th>
+                                        <th colspan="3" class="bg-secondary"><span class="ml-5">Pengeluaran</span></th>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="4"></td>
                                         <td class="text-center" colspan="2" width="400">Bahan Baku</td>
                                         <td>
                                             Rp. <?= number_format($data_modal[0][0]['bahan_baku'], 0, '', '.') ?>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td></td>
                                         <td class="text-center" colspan="2" width="400">Akomodasi</td>
                                         <td>
                                             Rp. <?= number_format($data_modal[1][0]['akomodasi'], 0, '', '.') ?>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td></td>
                                         <td class="text-center" colspan="2" width="400">Lain-lain</td>
                                         <td>
                                             Rp. <?= number_format($data_modal[2][0]['lain_lain'], 0, '', '.') ?>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td></td>
                                         <td class="text-center" colspan="2">Gaji</td>
                                         <td>
                                             <?php foreach ($data_gaji as $dt_gaji); ?>
@@ -82,8 +80,8 @@
                                     </tr>
                                     <tr>
                                         <th></th>
-                                        <th class="text-center" colspan="3">Total Pengeluaran</th>
-                                        <th class="text-center">Rp. 
+                                        <th class="text-center" colspan="2">Total Pengeluaran</th>
+                                        <th>Rp. 
                                             <?= number_format(
                                                 $data_modal[0][0]['bahan_baku']+
                                                 $data_modal[1][0]['akomodasi']+
@@ -93,12 +91,12 @@
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th class="text-center">3</th>
-                                        <th class="text-center" colspan="3">Total Pendapatan Bersih</th>
-                                        <th class="text-center">Rp. 
+                                        <th class="text-center bg-secondary">3</th>
+                                        <th class="text-center bg-secondary" colspan="2">Total Pendapatan Bersih</th>
+                                        <th class="bg-secondary">Rp. 
                                             <?= number_format(
                                                 (
-                                                    $dt_pre['preorder']+$dt_trans['langsung']
+                                                    $dt_pre['preorder']+$dt_trans['langsung']+$dt_book['preorder']
                                                 )-(
                                                     $data_modal[0][0]['bahan_baku']+
                                                     $data_modal[1][0]['akomodasi']+

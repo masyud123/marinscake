@@ -66,16 +66,14 @@
             <br>Bulan <?= $bulan ?> Tahun <?= $tahun ?>
         </div>
         <div class="container-fluid" align="center" style="margin-top: 20px;">
-            <table>
+            <table style="width: 100%;">
                 <tr>
                     <th width="30" height="20">No</th>
-                    <th colspan="3" width="310" >Nama dan Jumlah</th>
-                    <th width="105">Total</th>
+                    <th colspan="3" width="310" >Keterangan</th>
                 </tr>
                 <tr>
-                    <th rowspan="4">1</th>
+                    <th rowspan="5" width="30">1</th>
                     <th height="20" colspan="3" align="left"  style="padding-left:10px">Pendapatan</th>
-                    <th rowspan="3"></th>
                 </tr>
                 <tr>
                     <td align="center" colspan="2" width="" height="20">Transaksi Langsung</td>
@@ -92,13 +90,19 @@
                     </td>
                 </tr>
                 <tr>
-                    <th colspan="3" height="20">Total Pendapatan</th>
-                    <th>Rp. <?= number_format($dt_pre['preorder']+$dt_trans['langsung'], 0, '', '.') ?></th>
+                    <td align="center" colspan="2" height="20">Transaksi Booking</td>
+                    <td style="padding-left:10px">
+                        <?php foreach($data_booking as $dt_book);?>
+                            Rp. <?= number_format($dt_book['preorder'], 0, '', '.') ?>
+                    </td>
+                </tr>
+                <tr>
+                    <th colspan="2" height="20">Total Pendapatan</th>
+                    <th>Rp. <?= number_format($dt_book['preorder']+$dt_pre['preorder']+$dt_trans['langsung'], 0, '', '.') ?></th>
                 </tr>
                 <tr>
                     <th rowspan="6">2</th>
                     <th  height="20" colspan="3" align="left" style="padding-left:10px">Pengeluaran</th>
-                    <th rowspan="5"></th>
                 </tr>   
                 <tr>
                     <td align="center" height="20" colspan="2" >Bahan Baku</td>
@@ -126,7 +130,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th colspan="3" height="20">Total Pengeluaran</th>
+                    <th colspan="2" height="20">Total Pengeluaran</th>
                     <th class="text-center">Rp. 
                         <?= number_format(
                             $data_modal[0][0]['bahan_baku']+
@@ -138,11 +142,11 @@
                 </tr>
                 <tr>
                     <th height="20">3</th>
-                    <th colspan="3">Total Pendapatan Bersih</th>
+                    <th colspan="2">Total Pendapatan Bersih</th>
                     <th class="text-center">Rp. 
                         <?= number_format(
                             (
-                                $dt_pre['preorder']+$dt_trans['langsung']
+                                $dt_book['preorder']+$dt_pre['preorder']+$dt_trans['langsung']
                             )-(
                                 $data_modal[0][0]['bahan_baku']+
                                 $data_modal[1][0]['akomodasi']+

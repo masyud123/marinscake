@@ -71,57 +71,62 @@ class Cetak_pdf extends CI_Controller {
     public function cetak_semua_pdf($blnTh)
     {
 		$data['bulan_tahun'] = $blnTh;
-     	// $transaksi  = $this->Model_laporan->get_transaksi_langsung($blnTh)->result_array();
-
-        // $prd   = $this->Model_laporan->get_transaksi_preorder($blnTh)->result_array();
-		// foreach($prd as $key => $val):
-		// 	if($val['metode'] == 'Offline'){$pembayaran = 'Tunai';}
-		// 	else{$pembayaran = 'Transfer';}
-		// 	$preorder[] = array(
-		// 		'id_preorder' 	=> $val['id_preorder'],
-		// 		'total_belanja' => $val['jumlah'],
-		// 		'metode'		=> $val['metode'],
-		// 		'pembayaran' 	=> $pembayaran,
-		// 		'status' 		=> $val['status'],
-		// 		'tanggal'		=> $val['tanggal_pesan'],
-		// 	);
-		// endforeach;
-
-		// $gabung = array_merge($transaksi, $preorder);
-		// $data['semua_transaksi'] = array_chunk($gabung, 18, true);
-
-		// $dtl_langsung = $this->db->get('detail_transaksi')->result_array();
-		// $dtl_preorder = $this->db->get('detail_preorder')->result_array();
-		// $gabung2 = array_merge($dtl_langsung, $dtl_preorder);
-		// $data['detail_transaksi'] = $gabung2;
 
 		$data_transaksi1   = $this->Model_laporan->get_transaksi_langsung($blnTh)->result_array();
-		foreach($data_transaksi1 as $dt_trans){
-			$dt_join1[] = [
-				'tanggal' 	=> $dt_trans['tanggal'],
-				'total_belanja' => $dt_trans['total_belanja'],
-				'detail' => $this->db->select('*')
-								->from('detail_transaksi')
-								->join('produk', 'produk.id_produk = detail_transaksi.id_produk')
-								->where('detail_transaksi.id_transaksi', $dt_trans['id_transaksi'])
-								->get()->result_array()
-			];
+		if(count($data_transaksi1) > 0){
+			foreach($data_transaksi1 as $dt_trans){
+				$dt_join1[] = [
+					'tanggal' 	=> $dt_trans['tanggal'],
+					'total_belanja' => $dt_trans['total_belanja'],
+					'detail' => $this->db->select('*')
+									->from('detail_transaksi')
+									->join('produk', 'produk.id_produk = detail_transaksi.id_produk')
+									->where('detail_transaksi.id_transaksi', $dt_trans['id_transaksi'])
+									->get()->result_array()
+				];
+			}
+			$data['data_transaksi1'] = $dt_join1;
+		}else{
+			$data['data_transaksi1'] = [];
 		}
-		$data['data_transaksi1'] = $dt_join1;
 
 		$data_transaksi2   = $this->Model_laporan->get_transaksi_preorder($blnTh)->result_array();
-		foreach($data_transaksi2 as $dt_trans){
-			$dt_join2[] = [
-				'tanggal' 	=> $dt_trans['tanggal_pesan'],
-				'total_belanja' => $dt_trans['jumlah'],
-				'detail' => $this->db->select('*')
-								->from('detail_preorder')
-								->join('produk', 'produk.id_produk = detail_preorder.id_produk')
-								->where('detail_preorder.id_preorder', $dt_trans['id_preorder'])
-								->get()->result_array()
-			];
+		if(count($data_transaksi2) > 0){
+			foreach($data_transaksi2 as $dt_trans){
+				$dt_join2[] = [
+					'tanggal' 	=> $dt_trans['tanggal_pesan'],
+					'nama_kota' => $dt_trans['nama_kota'],
+					'ongkir'	=> $dt_trans['ongkir'],
+					'total_belanja' => $dt_trans['jumlah'],
+					'detail' => $this->db->select('*')
+									->from('detail_preorder')
+									->join('produk', 'produk.id_produk = detail_preorder.id_produk')
+									->where('detail_preorder.id_preorder', $dt_trans['id_preorder'])
+									->get()->result_array()
+				];
+			}
+			$data['data_transaksi2'] = $dt_join2;
+		}else{
+			$data['data_transaksi2'] = [];
 		}
-		$data['data_transaksi2'] = $dt_join2;
+
+		$data_transaksi3   = $this->Model_laporan->get_transaksi_booking($blnTh)->result_array();
+		if(count($data_transaksi3) > 0){
+			foreach($data_transaksi3 as $dt_trans){
+				$dt_join3[] = [
+					'tanggal' 	=> $dt_trans['tanggal_pesan'],
+					'total_belanja' => $dt_trans['jumlah'],
+					'detail' => $this->db->select('*')
+									->from('detail_preorder')
+									->join('produk', 'produk.id_produk = detail_preorder.id_produk')
+									->where('detail_preorder.id_preorder', $dt_trans['id_preorder'])
+									->get()->result_array()
+				];
+			}
+			$data['data_transaksi3'] = $dt_join3;
+		}else{
+			$data['data_transaksi3'] = [];
+		}
 
 		// echo "<pre>"; print_r($data); exit;
      	$this->load->view('admin/laporan/laporan_semua_pdf', $data);
@@ -140,22 +145,25 @@ class Cetak_pdf extends CI_Controller {
     public function cetak_langsung_pdf($blnTh)
     {
      	$data_transaksi   = $this->Model_laporan->get_transaksi_langsung($blnTh)->result_array();
-		foreach($data_transaksi as $dt_trans){
-			$dt_join[] = [
-				'tanggal' 	=> $dt_trans['tanggal'],
-				'total_belanja' => $dt_trans['total_belanja'],
-				'detail' => $this->db->select('*')
-								->from('detail_transaksi')
-								->join('produk', 'produk.id_produk = detail_transaksi.id_produk')
-								->where('detail_transaksi.id_transaksi', $dt_trans['id_transaksi'])
-								->get()->result_array()
-			];
+		if(count($data_transaksi) > 0){
+			foreach($data_transaksi as $dt_trans){
+				$dt_join[] = [
+					'tanggal' 	=> $dt_trans['tanggal'],
+					'total_belanja' => $dt_trans['total_belanja'],
+					'detail' => $this->db->select('*')
+									->from('detail_transaksi')
+									->join('produk', 'produk.id_produk = detail_transaksi.id_produk')
+									->where('detail_transaksi.id_transaksi', $dt_trans['id_transaksi'])
+									->get()->result_array()
+				];
+			}
+			$data['data_transaksi'] = $dt_join;
+			// $data['data_transaksi'] = array_chunk($data_transaksi, 18, true);
+		}else{
+			$data['data_transaksi'] = [];
 		}
-		$data['data_transaksi'] = $dt_join;
-		// $data['data_transaksi'] = array_chunk($data_transaksi, 18, true);
-
         $data['bulan_tahun'] = $blnTh;
-     	// echo "<pre>"; print_r($data); exit;
+     	
      	$this->load->view('admin/laporan/laporan_langsung_pdf', $data);
 
      	$paper_size 	= 'A4';
@@ -171,23 +179,25 @@ class Cetak_pdf extends CI_Controller {
     //	cetak pdf laporan transaksi preorder
     public function cetak_preorder_pdf($blnTh)
     {
-     	// $data_preorder   = $this->Model_laporan->get_transaksi_preorder($blnTh)->result_array();
-		// $data['data_preorder'] = array_chunk($data_preorder, 18, true);
-
-		$data_transaksi   = $this->Model_laporan->get_transaksi_preorder($blnTh)->result_array();
-		foreach($data_transaksi as $dt_trans){
-			$dt_join[] = [
-				'tanggal' 	=> $dt_trans['tanggal_pesan'],
-				'total_belanja' => $dt_trans['jumlah'],
-				'detail' => $this->db->select('*')
-								->from('detail_preorder')
-								->join('produk', 'produk.id_produk = detail_preorder.id_produk')
-								->where('detail_preorder.id_preorder', $dt_trans['id_preorder'])
-								->get()->result_array()
-			];
+     	$data_transaksi   = $this->Model_laporan->get_transaksi_preorder($blnTh)->result_array();
+		 if(count($data_transaksi) > 0){
+			foreach($data_transaksi as $dt_trans){
+				$dt_join[] = [
+					'tanggal' 	=> $dt_trans['tanggal_pesan'],
+					'nama_kota' => $dt_trans['nama_kota'],
+					'ongkir'	=> $dt_trans['ongkir'],
+					'total_belanja' => $dt_trans['jumlah'],
+					'detail' => $this->db->select('*')
+									->from('detail_preorder')
+									->join('produk', 'produk.id_produk = detail_preorder.id_produk')
+									->where('detail_preorder.id_preorder', $dt_trans['id_preorder'])
+									->get()->result_array()
+				];
+			}
+			$data['data_transaksi'] = $dt_join;
+		}else{
+			$data['data_transaksi'] = [];
 		}
-		$data['data_transaksi'] = $dt_join;
-
         $data['bulan_tahun'] = $blnTh;
      	
      	$this->load->view('admin/laporan/laporan_preorder_pdf', $data);
@@ -202,11 +212,46 @@ class Cetak_pdf extends CI_Controller {
 		$this->pdf->stream("Daftar_Transaksi_Preorder.pdf", array('Attachment' =>0)); 
     }
 
+	//	cetak pdf laporan transaksi preorder
+    public function cetak_booking_pdf($blnTh)
+    {
+		$data_transaksi   = $this->Model_laporan->get_transaksi_booking($blnTh)->result_array();
+		if(count($data_transaksi) > 0){
+			foreach($data_transaksi as $dt_trans){
+				$dt_join[] = [
+					'tanggal' 	=> $dt_trans['tanggal_pesan'],
+					'total_belanja' => $dt_trans['jumlah'],
+					'detail' => $this->db->select('*')
+									->from('detail_preorder')
+									->join('produk', 'produk.id_produk = detail_preorder.id_produk')
+									->where('detail_preorder.id_preorder', $dt_trans['id_preorder'])
+									->get()->result_array()
+				];
+			}
+			$data['data_transaksi'] = $dt_join;
+		}else{
+			$data['data_transaksi'] = [];
+		}
+        $data['bulan_tahun'] = $blnTh;
+     	
+     	$this->load->view('admin/laporan/laporan_booking_pdf', $data);
+
+     	$paper_size 	= 'A4';
+		$orientation 	= 'landscape';
+		$html 			= $this->output->get_output();
+		$this->pdf->set_paper($paper_size, $orientation);
+
+		$this->pdf->load_html($html);
+		$this->pdf->render();
+		$this->pdf->stream("Daftar_Transaksi_Booking.pdf", array('Attachment' =>0)); 
+    }
+
 	//	cetak pdf laporan keuntungan
     public function cetak_keuntungan_pdf($filter)
     {
      	$data['data_transaksi']     = $this->Model_laporan->total_transaksi_langsung($filter)->result_array();
         $data['data_preorder']      = $this->Model_laporan->total_transaksi_preorder($filter)->result_array();
+		$data['data_booking']       = $this->Model_laporan->total_transaksi_booking($filter)->result_array();
         $data['data_modal']         = $this->Model_laporan->total_pengeluaran_modal($filter);
         $data['data_gaji']          = $this->Model_laporan->total_pengeluaran_gaji($filter)->result_array();
         $data['bulan_tahun'] = $filter;

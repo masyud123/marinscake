@@ -73,12 +73,13 @@ class Laporan extends CI_Controller
     // tampilan laporan penjualan
     public function laporan_penjualan($filter)
     {
-        $data['data_transaksi']   = $this->Model_laporan->get_transaksi_langsung($filter)->result_array();
-        $data['detail_transaksi'] = $this->Model_laporan->get_detail_transaksi_langsung()->result_array();
-        $data['data_preorder']   = $this->Model_laporan->get_transaksi_preorder($filter)->result_array();
-        $data['detail_preorder'] = $this->Model_laporan->get_detail_transaksi_preorder()->result_array();
+        $data['data_transaksi']     = $this->Model_laporan->get_transaksi_langsung($filter)->result_array();
+        $data['detail_transaksi']   = $this->Model_laporan->get_detail_transaksi_langsung()->result_array();
+        $data['data_preorder']      = $this->Model_laporan->get_transaksi_preorder($filter)->result_array();
+        $data['data_booking']       = $this->Model_laporan->get_transaksi_booking($filter)->result_array();
+        $data['detail_preorder']    = $this->Model_laporan->get_detail_transaksi_preorder()->result_array();
         $data['bulan'] = $filter;
-
+        
         $this->load->view('admin/template/header');
         $this->load->view('admin/template/sidebar');
         $this->load->view('admin/laporan/laporan_penjualan', $data);
@@ -90,10 +91,12 @@ class Laporan extends CI_Controller
     {
         $data['data_transaksi']     = $this->Model_laporan->total_transaksi_langsung($filter)->result_array();
         $data['data_preorder']      = $this->Model_laporan->total_transaksi_preorder($filter)->result_array();
+        $data['data_booking']       = $this->Model_laporan->total_transaksi_booking($filter)->result_array();
         $data['data_modal']         = $this->Model_laporan->total_pengeluaran_modal($filter);
         $data['data_gaji']          = $this->Model_laporan->total_pengeluaran_gaji($filter)->result_array();
         $data['bulan'] = $filter;
-
+        
+        // echo "<pre>"; print_r($data); exit;
         $this->load->view('admin/template/header');
         $this->load->view('admin/template/sidebar');
         $this->load->view('admin/laporan/laporan_keuntungan', $data);

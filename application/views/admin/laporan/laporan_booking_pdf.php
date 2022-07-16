@@ -1,5 +1,5 @@
 <html><head>
-	<title>Laporan Transaksi Preorder</title>
+	<title>Laporan Transaksi Booking</title>
 	<style>
         table {
             border-collapse: collapse;
@@ -51,7 +51,7 @@
         <hr style="border: 1.5px solid black;margin-top: 0px;position:static">
         
         <div align="center">
-            LAPORAN TRANSAKSI PREORDER
+            LAPORAN TRANSAKSI BOOKING
             <?php 
                 date_default_timezone_set('Asia/Jakarta');
                 $tahun  = strstr($bulan_tahun, '-', true);
@@ -86,8 +86,8 @@
                         foreach($data_transaksi[$i]['detail'] as $key => $val):
                             if($key == 0): ?>
                                 <tr>
-                                    <td style="padding: 7px;" align="center" rowspan="<?=count($data_transaksi[$i]['detail'])+1?>"><?=$no++?></td>
-                                    <td style="padding: 7px;" align="center" rowspan="<?=count($data_transaksi[$i]['detail'])+1?>"><?=$data_transaksi[$i]['tanggal']?></td>
+                                    <td style="padding: 7px;" align="center" rowspan="<?=count($data_transaksi[$i]['detail'])?>"><?=$no++?></td>
+                                    <td style="padding: 7px;" align="center" rowspan="<?=count($data_transaksi[$i]['detail'])?>"><?=$data_transaksi[$i]['tanggal']?></td>
                                     <td style="padding: 7px;"><?=$val['nama_produk']?></td>
                                     <td align="center"><?=$val['jumlah']?></td>
                                     <td align="center">Rp. <?= number_format($val['harga'], 0, '', '.') ?></td>
@@ -101,13 +101,8 @@
                                     <td align="center">Rp. <?= number_format($val['total'], 0, '', '.') ?></td>
                                 </tr>
                             <?php endif; 
-                        endforeach;?>
-                                <tr>
-                                    <td align="center" colspan="2"><b>Daerah Kirim</b></td>
-                                    <td align="center" style="padding: 7px;"><?=$data_transaksi[$i]['nama_kota']?></td>
-                                    <td align="center" style="padding: 7px;">Rp <?= number_format($data_transaksi[$i]['ongkir'], 0, '', '.') ?></td>
-                                </tr>
-                       <?php $sum += $data_transaksi[$i]['total_belanja'];
+                        endforeach; 
+                        $sum += $data_transaksi[$i]['total_belanja'];
                     endfor;
                 ?>
                 <tr>

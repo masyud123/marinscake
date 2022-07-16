@@ -96,9 +96,22 @@ class Model_laporan extends CI_Model {
     {
         $this->db->select('*');
         $this->db->from('preorder');
+        $this->db->join('pengiriman','pengiriman.id_preorder = preorder.id_preorder');
+        $this->db->join('daerah_kirim','daerah_kirim.id_daerah = pengiriman.id_daerah');
+        $this->db->where('preorder.booking', 0);
         $this->db->like('tanggal_pesan', $filter);
         return $this->db->get();
     }
+
+     // get data transaksi booking 
+     public function get_transaksi_booking($filter)
+     {
+         $this->db->select('*');
+         $this->db->from('preorder');
+         $this->db->where('booking', 1);
+         $this->db->like('tanggal_pesan', $filter);
+         return $this->db->get();
+     }
 
     // get data produk dan detail preorder join
     public function get_detail_transaksi_preorder()
@@ -126,6 +139,18 @@ class Model_laporan extends CI_Model {
     {
         $this->db->select('SUM(jumlah) as preorder');
         $this->db->from('preorder');
+        $this->db->where('booking', 0);
+        $this->db->like('tanggal_pesan', $filter);
+        $this->db->where(array('status' => 'Selesai'));
+        return $this->db->get();
+    }
+
+    //get data dan hitung jumlah pemasukan transaksi booking
+    public function total_transaksi_booking($filter)
+    {
+        $this->db->select('SUM(jumlah) as preorder');
+        $this->db->from('preorder');
+        $this->db->where('booking', 1);
         $this->db->like('tanggal_pesan', $filter);
         $this->db->where(array('status' => 'Selesai'));
         return $this->db->get();
