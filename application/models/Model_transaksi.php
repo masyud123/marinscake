@@ -100,8 +100,8 @@ class Model_transaksi extends CI_Model
         $this->db->from('preorder');
         $this->db->join('pengiriman', 'preorder.id_preorder = pengiriman.id_preorder');
         $this->db->order_by('tanggal_pesan', 'DESC');
-        $this->db->where('status', 'Menunggu Pembayaran');
         $this->db->where('preorder.booking', 1);
+        $this->db->where('status', 'Menunggu Pembayaran');
         return $this->db->get();
     }
 

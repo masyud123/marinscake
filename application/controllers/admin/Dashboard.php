@@ -14,6 +14,37 @@ class Dashboard extends CI_Controller
 		error_reporting(0);
 	}
 
+	public function get_notif()
+	{
+		$data['notif'] = $this->db->get_where('notifikasi', array('status_notif' => 0))->result_array();
+		$this->load->view('admin/template/notif', $data);
+	}
+
+	public function baca_semua_notif()
+	{
+		$notif = $this->db->get_where('notifikasi', array('status_notif' => 0))->result_array();
+		foreach ($notif as $woi) {
+			$id_notif = $woi['id_notifikasi'];
+			$data = array(
+				'status_notif' => 1
+			);
+			$this->db->update('notifikasi', $data, array('id_notifikasi' => $id_notif));
+		}
+		header('Location: ' . $_SERVER['HTTP_REFERER']);
+	}
+
+	public function baca_notif($id)
+	{
+		$notif = $this->db->get_where('notifikasi', array('id_preorder' => $id))->row_array();
+		$id_notif = $notif['id_notifikasi'];
+		$data = array(
+			'status_notif' => 1
+		);
+		$this->db->update('notifikasi', $data, array('id_notifikasi' => $id_notif));
+
+		echo 1;
+	}
+
 	// tampil dashboard admin
 	public function index()
 	{
@@ -51,7 +82,7 @@ class Dashboard extends CI_Controller
 
 		$this->load->view('admin/template/header');
 		$this->load->view('admin/template/sidebar');
-		$this->load->view('admin/dashboard', $data); 
+		$this->load->view('admin/dashboard', $data);
 		$this->load->view('admin/template/footer');
 	}
 }

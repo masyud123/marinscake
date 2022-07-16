@@ -70,6 +70,14 @@ class Checkout extends CI_Controller
 				);
 				$insert_pengiriman = $this->db->insert('pengiriman', $data_pengiriman);
 				if ($insert_pengiriman) {
+					$notif = array(
+						'id_preorder'	=> $id_preorder,
+						'pesan'			=> 'Masuk data preorder menunggu pembayaran',
+						'keterangan'	=> 'preorder',
+						'waktu'			=> date('Y-m-d H:i:s'),
+						'status_notif'	=> '0'
+					);
+					$this->db->insert('notifikasi', $notif);
 					$this->cart->destroy();
 					redirect('Checkout/pembayaran/' . $id_preorder);
 				}
@@ -120,6 +128,14 @@ class Checkout extends CI_Controller
 				);
 				$insert_pengiriman = $this->db->insert('pengiriman', $data_pengiriman);
 				if ($insert_pengiriman) {
+					$notif = array(
+						'id_preorder'	=> $id_preorder,
+						'pesan'			=> 'Masuk data booking menunggu pembayaran',
+						'keterangan'	=> 'booking',
+						'waktu'			=> date('Y-m-d H:i:s'),
+						'status_notif'	=> '0'
+					);
+					$this->db->insert('notifikasi', $notif);
 					$this->cart->destroy();
 					redirect('Checkout/pembayaran/' . $id_preorder);
 				}

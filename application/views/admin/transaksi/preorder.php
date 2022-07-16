@@ -75,7 +75,7 @@
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-around">
-                                                    <button class="btn btn-info" data-toggle="modal" data-target="#modal_detail_preorder<?= $rw_pr['id_preorder'] ?>">
+                                                    <button class="btn btn-info baca_notif" data-id="<?= $rw_pr['id_preorder'] ?>" data-toggle="modal" data-target="#modal_detail_preorder<?= $rw_pr['id_preorder'] ?>">
                                                         <i class="fas fa-search"></i> Detail</button>
                                                     <button class="btn btn-warning" type="button" data-toggle="modal" data-target="#modal_edit_preorder<?php echo $rw_pr['id_preorder'] ?>">
                                                         <i class="fas fa-pen"></i> Edit</button>
@@ -298,6 +298,9 @@
         </div>
     </div>
 <?php endforeach; ?>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
 <!-- Pop up hapus transaksi-->
 <script type="text/javascript">
     function hapus_riwayat_preorder($idPreorder) {
@@ -320,4 +323,26 @@
         var tanggal = document.getElementById('filter_tanggal').value;
         window.location = "<?php echo base_url('admin/Transaksi/preorder/') ?>" + tanggal;
     }
+
+    // function get_notif() {
+    //     $.ajax({
+    //         url: "<?php echo base_url(); ?>admin/Dashboard/get_notif",
+    //         method: "POST",
+    //         success: function(data) {
+    //             $('#notif').html(data);
+    //         }
+    //     });
+    // }
+
+    // $('.baca_notif').click(function() {
+    //     let id = $(this).data('id');
+    //     console.log(id);
+    //     $.ajax({
+    //         url: "<?php echo base_url(); ?>admin/dashboard/baca_notif/" + id,
+    //         method: "POST",
+    //         success: function() {
+    //             get_notif();
+    //         }
+    //     });
+    // })
 </script>

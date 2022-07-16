@@ -86,7 +86,7 @@ function tgl_indo($tanggal)
                                     <label class="m-0">Tanggal Pengiriman<span></span>
                                     </label>
                                     <div class="form-group__content">
-                                        <input class="form-control" type="text" value="<?= tgl_indo($preorder->tanggal_dikirim) ?>" disabled>
+                                        <input class="form-control" type="text" value="<?= tgl_indo(date('Y-m-d', strtotime($preorder->tanggal_dikirim))) ?>" disabled>
                                     </div>
                                 </div>
                             <?php else : ?>

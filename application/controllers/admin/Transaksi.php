@@ -97,7 +97,7 @@ class Transaksi extends CI_Controller
         $data['barang_belum_diambil']   = $this->Model_transaksi->barang_belum_diambil()->result_array();
         $data['barang_belum_dibayar']   = $this->Model_transaksi->booking_belum_dibayar()->result_array();
         $data['data_midtrans']          = $this->db->get('midtrans')->result_array();
-        // echo json_encode($data['barang_belum_diambil']);
+        // echo json_encode($data['barang_belum_dibayar']);
         // exit;
         $this->load->view('admin/template/header');
         $this->load->view('admin/template/sidebar');
@@ -119,6 +119,20 @@ class Transaksi extends CI_Controller
         $this->load->view('admin/template/footer');
     }
 
+    // Tampil Data Transaksi belum diambil
+    public function barang_belum_diambil()
+    {
+
+        $data['detail_preorder']    = $this->Model_transaksi->detail_riwayat_preorder()->result_array();
+        $data['riwayat_preorder']   = $this->Model_transaksi->barang_belum_diambil()->result_array();
+        $data['data_midtrans']      = $this->db->get('midtrans')->result_array();
+
+        $this->load->view('admin/template/header');
+        $this->load->view('admin/template/sidebar');
+        $this->load->view('admin/transaksi/barang_belum_diambil', $data);
+        $this->load->view('admin/template/footer');
+    }
+
     // Tampil Data Transaksi belum dibayar
     public function barang_belum_dibayar()
     {
@@ -130,6 +144,20 @@ class Transaksi extends CI_Controller
         $this->load->view('admin/template/header');
         $this->load->view('admin/template/sidebar');
         $this->load->view('admin/transaksi/barang_belum_dibayar', $data);
+        $this->load->view('admin/template/footer');
+    }
+
+    // Tampil Data Transaksi booking belum dibayar
+    public function booking_belum_dibayar()
+    {
+
+        $data['detail_preorder']    = $this->Model_transaksi->detail_riwayat_preorder()->result_array();
+        $data['riwayat_preorder']   = $this->Model_transaksi->booking_belum_dibayar()->result_array();
+        $data['data_midtrans']      = $this->db->get('midtrans')->result_array();
+
+        $this->load->view('admin/template/header');
+        $this->load->view('admin/template/sidebar');
+        $this->load->view('admin/transaksi/booking_belum_dibayar', $data);
         $this->load->view('admin/template/footer');
     }
 
