@@ -7,16 +7,16 @@
         }
         table td {
             border: 1px solid black;
-            background-color: #0000ff66;
+            background-color: #ffffff;
         } 
         table tr {
             border: 0px solid black;
-            background-color: #0000ff66;
+            background-color: #ffffff;
         }
 
         table th {
             border: 1px solid black;
-            background-color: #0000ff66;
+            background-color: #ffffff;
         }
         .rowspan {
             border-left-width: 10px;
@@ -32,8 +32,15 @@
             </div>
         </div>
         
-        <img src="assets/client/images/logo-light.png" style="width: 16%; height: auto; position: absolute; margin-top: 35px; margin-left: 60px;">
-        <hr style="border: 1.5px solid black;margin-top:-10px;position:static">
+        <?php
+            $path = base_url('assets/client/images/logo-light.png');
+            $type = pathinfo($path, PATHINFO_EXTENSION);
+            $data = file_get_contents($path);
+            $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+        ?>
+        <img src="<?=$base64?>" style="width: 15%; height: auto; position: absolute; margin-top: -110px; margin-left: 0px;">
+        <hr style="border: 1.5px solid black;margin-top: 0px;position:static">
+        
     </div>
 </head><body>
     <div style="padding:0 50px">
@@ -66,12 +73,11 @@
                     <th width="105">Total</th>
                 </tr>
                 <tr>
-                    <th height="20">1</th>
-                    <th colspan="3" align="left"  style="padding-left:10px">Pendapatan</th>
+                    <th rowspan="4">1</th>
+                    <th height="20" colspan="3" align="left"  style="padding-left:10px">Pendapatan</th>
                     <th rowspan="3"></th>
                 </tr>
                 <tr>
-                    <td></td>
                     <td align="center" colspan="2" width="" height="20">Transaksi Langsung</td>
                     <td style="padding-left:10px">
                         <?php foreach($data_transaksi as $dt_trans);?>
@@ -79,7 +85,6 @@
                     </td>
                 </tr>
                 <tr>
-                    <td></td>
                     <td align="center" colspan="2" height="20">Transaksi Preorder</td>
                     <td style="padding-left:10px">
                         <?php foreach($data_preorder as $dt_pre);?>
@@ -87,40 +92,65 @@
                     </td>
                 </tr>
                 <tr>
-                    <th height="20"></th>
-                    <th colspan="3">Total Pendapatan</th>
+                    <th colspan="3" height="20">Total Pendapatan</th>
                     <th>Rp. <?= number_format($dt_pre['preorder']+$dt_trans['langsung'], 0, '', '.') ?></th>
                 </tr>
                 <tr>
-                    <th height="20">2</th>
-                    <th colspan="3" align="left" style="padding-left:10px">Pengeluaran</th>
-                    <th rowspan="3"></th>
+                    <th rowspan="6">2</th>
+                    <th  height="20" colspan="3" align="left" style="padding-left:10px">Pengeluaran</th>
+                    <th rowspan="5"></th>
                 </tr>   
                 <tr>
-                    <td height="20"></td>
-                    <td align="center" colspan="2" >Pengeluaran Lain-lain</td>
+                    <td align="center" height="20" colspan="2" >Bahan Baku</td>
                     <td style="padding-left:10px">
-                        <?php foreach($data_modal as $dt_modal);?>
-                            Rp. <?= number_format($dt_modal['keluar_modal'], 0, '', '.') ?>
+                        Rp. <?= number_format($data_modal[0][0]['bahan_baku'], 0, '', '.') ?>
                     </td>
                 </tr>
                 <tr>
-                    <td height="20"></td>
-                    <td align="center" colspan="2">Pengeluaran Gaji</td>
+                    <td align="center" height="20" colspan="2" >Akomodasi</td>
+                    <td style="padding-left:10px">
+                        Rp. <?= number_format($data_modal[1][0]['akomodasi'], 0, '', '.') ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" height="20" colspan="2" >Lain-lain</td>
+                    <td style="padding-left:10px">
+                        Rp. <?= number_format($data_modal[2][0]['lain_lain'], 0, '', '.') ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" height="20" colspan="2">Gaji</td>
                     <td style="padding-left:10px">
                         <?php foreach($data_gaji as $dt_gaji);?>
                             Rp. <?= number_format($dt_gaji['keluar_gaji'], 0, '', '.') ?>
                     </td>
                 </tr>
                 <tr>
-                    <th height="20"></th>
-                    <th colspan="3">Total Pengeluaran</th>
-                    <th class="text-center">Rp. <?= number_format($dt_modal['keluar_modal']+$dt_gaji['keluar_gaji'], 0, '', '.') ?></th>
+                    <th colspan="3" height="20">Total Pengeluaran</th>
+                    <th class="text-center">Rp. 
+                        <?= number_format(
+                            $data_modal[0][0]['bahan_baku']+
+                            $data_modal[1][0]['akomodasi']+
+                            $data_modal[2][0]['lain_lain']+
+                            $dt_gaji['keluar_gaji'], 
+                        0, '', '.') ?>
+                    </th>
                 </tr>
                 <tr>
                     <th height="20">3</th>
                     <th colspan="3">Total Pendapatan Bersih</th>
-                    <th class="text-center">Rp. <?= number_format($dt_pre['preorder']+$dt_trans['langsung']-$dt_modal['keluar_modal']-$dt_gaji['keluar_gaji'], 0, '', '.') ?></td>
+                    <th class="text-center">Rp. 
+                        <?= number_format(
+                            (
+                                $dt_pre['preorder']+$dt_trans['langsung']
+                            )-(
+                                $data_modal[0][0]['bahan_baku']+
+                                $data_modal[1][0]['akomodasi']+
+                                $data_modal[2][0]['lain_lain']+
+                                $dt_gaji['keluar_gaji']
+                            ), 
+                        0, '', '.') ?>
+                    </th>
                 </tr>
             </table>
         </div>

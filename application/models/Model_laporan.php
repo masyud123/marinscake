@@ -134,10 +134,29 @@ class Model_laporan extends CI_Model {
     //get data dan hitung jumlah pengeluaran modal
     public function total_pengeluaran_modal($filter)
     {
-        $this->db->select('SUM(total_modal) as keluar_modal');
-        $this->db->from('modal');
-        $this->db->like('tanggal', $filter);
-        return $this->db->get();
+        // $this->db->select('SUM(total_modal) as keluar_modal');
+        // $this->db->from('modal');
+        // $this->db->like('tanggal', $filter);
+        // return $this->db->get();
+        $data1   =   $this->db->select('SUM(total_modal) as bahan_baku')
+                    ->from('modal')
+                    ->where('jenis_pengeluaran', 1)
+                    ->like('tanggal', $filter)
+                    ->get()->result_array();
+        
+        $data2   =   $this->db->select('SUM(total_modal) as akomodasi')
+                    ->from('modal')
+                    ->where('jenis_pengeluaran', 2)
+                    ->like('tanggal', $filter)
+                    ->get()->result_array();
+
+        $data3   =   $this->db->select('SUM(total_modal) as lain_lain')
+                    ->from('modal')
+                    ->where('jenis_pengeluaran', 3)
+                    ->like('tanggal', $filter)
+                    ->get()->result_array();
+        $data = [$data1, $data2, $data3];
+        return $data;
     }
 
     //get data dan hitung jumlah pengeluaran gaji

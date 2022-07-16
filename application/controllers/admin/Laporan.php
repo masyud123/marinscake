@@ -90,7 +90,7 @@ class Laporan extends CI_Controller
     {
         $data['data_transaksi']     = $this->Model_laporan->total_transaksi_langsung($filter)->result_array();
         $data['data_preorder']      = $this->Model_laporan->total_transaksi_preorder($filter)->result_array();
-        $data['data_modal']         = $this->Model_laporan->total_pengeluaran_modal($filter)->result_array();
+        $data['data_modal']         = $this->Model_laporan->total_pengeluaran_modal($filter);
         $data['data_gaji']          = $this->Model_laporan->total_pengeluaran_gaji($filter)->result_array();
         $data['bulan'] = $filter;
 

@@ -6,7 +6,7 @@ class Login extends CI_Controller
 	// tampil login
 	public function index()
 	{
-		$this->session->sess_destroy();
+		// $this->session->sess_destroy();
 		$this->load->view('admin/auth/template/header');
 		$this->load->view('admin/auth/login');
 		$this->load->view('admin/auth/template/footer');

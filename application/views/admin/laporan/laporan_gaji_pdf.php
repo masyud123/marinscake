@@ -7,16 +7,16 @@
         }
         table td {
             border: 1px solid black;
-            background-color: #0000ff66;
+            background-color: #ffffff;
         } 
         table tr {
             border: 0px solid black;
-            background-color: #0000ff66;
+            background-color: #ffffff;
         }
 
         table th {
             border: 1px solid black;
-            background-color: #0000ff66;
+            background-color: #ffffff;
         }
         .rowspan {
             border-left-width: 10px;
@@ -24,7 +24,7 @@
     </style>
 </head><body>
     <div style="padding:0 50px">
-        <div align="center" style="margin-left: 80px; position: static;">
+        <div align="center" >
             <h2>TOKO MARINS CAKE
                 <br>KEDIRI JAWA TIMUR
             </h2>
@@ -33,8 +33,15 @@
             </div>
         </div>
         
-        <img src="assets/client/images/logo-light.png" style="width: 16%; height: auto; position: absolute; margin-top: 35px; margin-left: 60px;">
-        <hr style="border: 1.5px solid black;margin-top:-10px;position:static">
+        <?php
+            $path = base_url('assets/client/images/logo-light.png');
+            $type = pathinfo($path, PATHINFO_EXTENSION);
+            $data = file_get_contents($path);
+            $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+        ?>
+        <img src="<?=$base64?>" style="width: 15%; height: auto; position: absolute; margin-top: -110px; margin-left: 0px;">
+        <hr style="border: 1.5px solid black;margin-top: 0px;position:static">
+        
         <div align="center">
             LAPORAN GAJI KARYAWAN
             <?php 

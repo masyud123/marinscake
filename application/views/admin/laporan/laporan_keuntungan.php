@@ -49,19 +49,32 @@
                                     <tr>
                                         <th class="text-center">2</th>
                                         <th colspan="3"><span class="ml-5">Pengeluaran</span></th>
-                                        <th rowspan="3"></th>
+                                        <th rowspan="5"></th>
                                     </tr>
                                     <tr>
                                         <td></td>
-                                        <td class="text-center" colspan="2" width="400">Pengeluaran Lain-lain</td>
+                                        <td class="text-center" colspan="2" width="400">Bahan Baku</td>
                                         <td>
-                                            <?php foreach ($data_modal as $dt_modal); ?>
-                                            Rp. <?= number_format($dt_modal['keluar_modal'], 0, '', '.') ?>
+                                            Rp. <?= number_format($data_modal[0][0]['bahan_baku'], 0, '', '.') ?>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td></td>
-                                        <td class="text-center" colspan="2">Pengeluaran Gaji</td>
+                                        <td class="text-center" colspan="2" width="400">Akomodasi</td>
+                                        <td>
+                                            Rp. <?= number_format($data_modal[1][0]['akomodasi'], 0, '', '.') ?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td class="text-center" colspan="2" width="400">Lain-lain</td>
+                                        <td>
+                                            Rp. <?= number_format($data_modal[2][0]['lain_lain'], 0, '', '.') ?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td class="text-center" colspan="2">Gaji</td>
                                         <td>
                                             <?php foreach ($data_gaji as $dt_gaji); ?>
                                             Rp. <?= number_format($dt_gaji['keluar_gaji'], 0, '', '.') ?>
@@ -70,12 +83,30 @@
                                     <tr>
                                         <th></th>
                                         <th class="text-center" colspan="3">Total Pengeluaran</th>
-                                        <th class="text-center">Rp. <?= number_format($dt_modal['keluar_modal'] + $dt_gaji['keluar_gaji'], 0, '', '.') ?></th>
+                                        <th class="text-center">Rp. 
+                                            <?= number_format(
+                                                $data_modal[0][0]['bahan_baku']+
+                                                $data_modal[1][0]['akomodasi']+
+                                                $data_modal[2][0]['lain_lain']+
+                                                $dt_gaji['keluar_gaji'], 
+                                            0, '', '.') ?>
+                                        </th>
                                     </tr>
                                     <tr>
                                         <th class="text-center">3</th>
                                         <th class="text-center" colspan="3">Total Pendapatan Bersih</th>
-                                        <th class="text-center">Rp. <?= number_format($dt_pre['preorder'] + $dt_trans['langsung'] - $dt_modal['keluar_modal'] - $dt_gaji['keluar_gaji'], 0, '', '.') ?></td>
+                                        <th class="text-center">Rp. 
+                                            <?= number_format(
+                                                (
+                                                    $dt_pre['preorder']+$dt_trans['langsung']
+                                                )-(
+                                                    $data_modal[0][0]['bahan_baku']+
+                                                    $data_modal[1][0]['akomodasi']+
+                                                    $data_modal[2][0]['lain_lain']+
+                                                    $dt_gaji['keluar_gaji']
+                                                ), 
+                                            0, '', '.') ?>    
+                                        </th>
                                     </tr>
                                 </tbody>
                             </table>

@@ -1,27 +1,26 @@
-<!DOCTYPE html>
 <html><head>
-	<title>Laporan Semua Penjualan</title>
+	<title>Laporan Transaksi Langsung</title>
 	<style>
         table {
             border-collapse: collapse;
         }
         table td {
-            border: 1px solid black;
-            background-color: #0000ff66;
+            border: 1px solid;
+            background-color: #ffffff;
         } 
         table tr {
-            border: 0px solid black;
-            background-color: #0000ff66;
+            border: 1px solid;
+            background-color: #ffffff;
         }
 
         table th {
-            border: 1px solid black;
-            background-color: #0000ff66;
+            border: 1px solid;
+            background-color: #ffffff;
         }
         .rowspan {
             border-left-width: 10px;
         }
-        
+
         .wrapper-page {
             page-break-after: always;
         }
@@ -29,10 +28,11 @@
             page-break-after: avoid;
         }
     </style>
-</head><body>
-    <?php for($i = 0; $i < count($semua_transaksi); $i++):?>
+</head>
+<?php $n=1 ?>
+<body>
     <div class="wrapper-page" style="padding:0 50px;">
-        <div align="center" style="margin-left: 80px; position: static;">
+        <div align="center">
             <h2>TOKO MARINS CAKE
                 <br>KEDIRI JAWA TIMUR
             </h2>
@@ -41,10 +41,17 @@
             </div>
         </div>
         
-        <img src="assets/client/images/logo-light.png" style="width: 16%; height: auto; position: absolute; margin-top: 35px; margin-left: 60px;">
-        <hr style="border: 1.5px solid black;margin-top:-10px;position:static">
+        <?php
+            $path = base_url('assets/client/images/logo-light.png');
+            $type = pathinfo($path, PATHINFO_EXTENSION);
+            $data = file_get_contents($path);
+            $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+        ?>
+        <img src="<?=$base64?>" style="width: 10%; height: auto; position: absolute; margin-top: -110px; margin-left: 0px;">
+        <hr style="border: 1.5px solid black;margin-top: 0px;position:static">
+        
         <div align="center">
-            LAPORAN SEMUA PENJUALAN
+            LAPORAN TRANSAKSI LANGSUNG
             <?php 
                 date_default_timezone_set('Asia/Jakarta');
                 $tahun  = strstr($bulan_tahun, '-', true);
@@ -64,53 +71,70 @@
             ?>
             <br>Bulan <?= $bulan ?> Tahun <?= $tahun ?>
         </div>
-        <br>
         <div align="center" style="margin-top: 20px;">
             <table width="100%">
                 <tr>
-                    <th align="center" style="padding: 7px 0;">NO</th>
-                    <th align="center" width="150px">Tanggal Transaksi</th>
-                    <th align="center" width="110px">Total Belanja</th>
-                    <th align="center" >Metode</th>
-                    <th align="center" width="100px">Pembayaran</th>
-                    <th align="center" >Status</th>
+                    <td align="center" width="25" style="padding: 7px 0;"><b>No</b></td>
+                    <td align="center" width="105"><b>Tanggal Transaksi</b></td>
+                    <td align="center" width="157"><b>Nama Produk</b></td>
+                    <td align="center" width="45"><b>Jumlah</b></td>
+                    <td align="center" width="105"><b>Harga Satuan</b></td>
+                    <td align="center" width="105"><b>Sub Total</b></td>
                 </tr>
-                <?php $no = 1; 
-                foreach ($semua_transaksi[$i] as $tr_semua): ?>
-                    <tr>
-                        <td align="center" height="22" style="padding: 5px 0;">
-                            <?= $no++ ?>
-                        </td>
-                        <td align="left" style="margin-left: 5px; padding-left:10px"><?= $tr_semua['tanggal']?>
-                        </td>
-                        <td align="center">
-                            Rp <?php echo number_format($tr_semua['total_belanja'], 0, '', '.') ?>
-                        </td>
-                        <td align="center">
-                            <?= $tr_semua['metode']?>
-                        </td>
-                        <td align="center">
-                            <?php if ($tr_semua['metode'] == 'Offline') { ?>
-                                Tunai
-                            <?php } else { ?>
-                                Transfer
-                            <?php } ?>
-                        </td>
-                        <td align="center">
-                            <?= $tr_semua['status']?>
-                        </td>
-                    </tr>
-                <?php endforeach;?>
+                <?php $sum=0; $no=1;
+                    for($i = 0; $i < count($data_transaksi1); $i++):
+                        foreach($data_transaksi1[$i]['detail'] as $key => $val):
+                            if($key == 0): ?>
+                                <tr>
+                                    <td style="padding: 7px;" align="center" rowspan="<?=count($data_transaksi1[$i]['detail'])?>"><?=$no++?></td>
+                                    <td style="padding: 7px;" align="center" rowspan="<?=count($data_transaksi1[$i]['detail'])?>"><?=$data_transaksi1[$i]['tanggal']?></td>
+                                    <td style="padding: 7px;"><?=$val['nama_produk']?></td>
+                                    <td align="center"><?=$val['jumlah']?></td>
+                                    <td align="center">Rp. <?= number_format($val['harga'], 0, '', '.') ?></td>
+                                    <td align="center">Rp. <?= number_format($val['total'], 0, '', '.') ?></td>
+                                </tr>
+                            <?php else: ?>
+                                <tr>
+                                    <td style="padding: 7px;"><?=$val['nama_produk']?></td>
+                                    <td align="center"><?=$val['jumlah']?></td>
+                                    <td align="center">Rp. <?= number_format($val['harga'], 0, '', '.') ?></td>
+                                    <td align="center">Rp. <?= number_format($val['total'], 0, '', '.') ?></td>
+                                </tr>
+                            <?php endif; 
+                        endforeach; 
+                        $sum += $data_transaksi1[$i]['total_belanja'];
+                    endfor;
+                    for($i = 0; $i < count($data_transaksi2); $i++):
+                        foreach($data_transaksi2[$i]['detail'] as $key => $val):
+                            if($key == 0): ?>
+                                <tr>
+                                    <td style="padding: 7px;" align="center" rowspan="<?=count($data_transaksi2[$i]['detail'])?>"><?=$no++?></td>
+                                    <td style="padding: 7px;" align="center" rowspan="<?=count($data_transaksi2[$i]['detail'])?>"><?=$data_transaksi2[$i]['tanggal']?></td>
+                                    <td style="padding: 7px;"><?=$val['nama_produk']?></td>
+                                    <td align="center"><?=$val['jumlah']?></td>
+                                    <td align="center">Rp. <?= number_format($val['harga'], 0, '', '.') ?></td>
+                                    <td align="center">Rp. <?= number_format($val['total'], 0, '', '.') ?></td>
+                                </tr>
+                            <?php else: ?>
+                                <tr>
+                                    <td style="padding: 7px;"><?=$val['nama_produk']?></td>
+                                    <td align="center"><?=$val['jumlah']?></td>
+                                    <td align="center">Rp. <?= number_format($val['harga'], 0, '', '.') ?></td>
+                                    <td align="center">Rp. <?= number_format($val['total'], 0, '', '.') ?></td>
+                                </tr>
+                            <?php endif; 
+                        endforeach; 
+                        $sum += $data_transaksi2[$i]['total_belanja'];
+                    endfor;
+                ?>
+                <tr>
+                    <td colspan="5" align="center"><b>Total Belanja</b></td>
+                    <td style="padding: 7px;" align="center">Rp. <?= number_format($sum, 0, '', '.') ?></td>
+                </tr>
             </table>
         </div>
         <br>
-        <?php if((count($semua_transaksi) - 1) == $i){
-                $tampil = "";
-            }else{
-                $tampil = "style='display: none;'";
-            }
-        ?>
-        <div align="right" <?= $tampil?>>
+        <div align="right" >
             <?php $bln2 = date('m'); 
                 if     ($bln2 == '01') {$bulan2 = 'Januari';}
                 elseif ($bln2 == '02') {$bulan2 = 'Februari';}
@@ -131,5 +155,4 @@
             <h4>Ego Duta</h4>    
         </div>
     </div>
-    <?php endfor; ?>
 </body></html>

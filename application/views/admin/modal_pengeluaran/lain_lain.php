@@ -17,7 +17,7 @@
                             <a href="<?php echo base_url('admin/cetak_pdf/cetak_modal_pdf/' . $tanggal .'/3') ?>" target="_blank" class="btn btn-warning ml-3"><i class="fas fa-file mr-2"></i>Export pdf</a>
                             <!-- tambah data -->
                             <button class="btn btn-success ml-3" data-toggle="modal" data-target="#biaya_produksi"><i class="fas fa-plus mr-1"></i> Tambah Pengeluaran</button>
-                        </div>
+                        </div> 
                         <div class="table-responsive">
                             <table class="table table-striped" id="table-1">
                                 <thead>
