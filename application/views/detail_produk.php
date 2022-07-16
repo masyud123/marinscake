@@ -38,13 +38,14 @@
                                 <p><?= $prd['deskripsi'] ?></p>
                             </div>
                             <div class="ps-product__status">
-                                <h5>Min order : <span> <?= $prd['min_order'] ?></span></h5>
+                                <h5>Stok : <span> <?= $prd['stok'] ?></span> pcs</h5>
+                                <h5>Min preorder : <span> <?= $prd['min_order'] ?></span> pcs</h5>
                             </div>
                             <div class="ps-product__shopping">
                                 <form class="ps-form--shopping" id="cart" action="" method="post">
                                     <div class="form-group--number">
                                         <button class="minus"><span>-</span></button>
-                                        <input id="<?= $prd['id_produk'] ?>" class="form-control" type="text" value="<?= $prd['min_order'] ?>">
+                                        <input id="<?= $prd['id_produk'] ?>" class="form-control" type="text" value="1">
                                         <button class="plus"><span>+</span></button>
                                     </div>
                                 </form>
@@ -86,6 +87,7 @@
             loadRekom(no);
         });
         loadRekom(0);
+
         function loadRekom(no) {
             var id_produk = '<?= $this->uri->segment("3") ?>';
             $.ajax({

@@ -10,7 +10,7 @@ class Produk extends CI_Controller
 
 	public function index()
 	{
-        $data['kategori']   = $this->db->get_where('jenis_produk', array('status' => 1))->result_array();
+		$data['kategori']   = $this->db->get_where('jenis_produk', array('status' => 1))->result_array();
 		$data['max']		= $this->Model_produk->get_max_harga()->row();
 
 		$this->load->view('template/header2');
@@ -60,7 +60,7 @@ class Produk extends CI_Controller
 							</ul>
 						</div>
 						<div class="ps-product__content"><a class="ps-product__title" href="' . base_url() . 'produk/detail/' . $val['id_produk'] . '">' . $val['nama_produk'] . '</a>
-							<p><a href="">Min order : ' . $val['min_order'] . '</a></p>
+							<p><a href="">' . substr($val['deskripsi'], 0, 20) . '...</a></p>
 							<p class="ps-product__price">Rp ' . number_format($val['harga'], '0', ',', '.') . '</p>
 						</div>
 					</div>
@@ -90,7 +90,7 @@ class Produk extends CI_Controller
 	public function cari()
 	{
 		$cari = $this->input->post('cari');
-        $data['kategori']   = $this->db->get_where('jenis_produk', array('status' => 1))->result_array();
+		$data['kategori']   = $this->db->get_where('jenis_produk', array('status' => 1))->result_array();
 		$data['max']		= $this->Model_produk->get_max_harga()->row();
 		$data['cari'] = $cari;
 
@@ -158,7 +158,7 @@ class Produk extends CI_Controller
 	{
 		$data['produk'] 	= $this->Model_produk->get_per_kategori($id_jenis)->result_array();
 		$data['gambar'] = $this->Model_produk->get_gambar()->result_array();
-        $data['kategori']   = $this->db->get_where('jenis_produk', array('status' => 1))->result_array();
+		$data['kategori']   = $this->db->get_where('jenis_produk', array('status' => 1))->result_array();
 
 		$this->load->view('template/header2');
 		$this->load->view('daftar_produk', $data);
@@ -210,15 +210,15 @@ class Produk extends CI_Controller
 		$x = array();
 
 		foreach ($where as $val) {
-		    $status = $this->db->get_where('jenis_produk', array('id_jenis' => $val))->row()->status;
-		    if ($status == 1){
-    		    $i = $this->Model_produk->get_filter_count($val, $min_price, $max_price)->result_array();
-    
-    			$x = array_merge(
-    				$x,
-    				$i
-    			);   
-		    }
+			$status = $this->db->get_where('jenis_produk', array('id_jenis' => $val))->row()->status;
+			if ($status == 1) {
+				$i = $this->Model_produk->get_filter_count($val, $min_price, $max_price)->result_array();
+
+				$x = array_merge(
+					$x,
+					$i
+				);
+			}
 		}
 		// All records count
 		$allcount = count($x);
